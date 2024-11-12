@@ -9,6 +9,11 @@
     <script src="https://unpkg.com/@jspsych/plugin-video-keyboard-response@2.0.0"></script>
     <script src="https://unpkg.com/@jspsych/plugin-preload@2.0.0"></script>
     <link href="https://unpkg.com/jspsych@8.0.3/css/jspsych.css" rel="stylesheet" type="text/css" />
+    <style>
+      * {
+        font-size: 24px;
+      }
+    </style>
   </head>
   <body></body>
   <script type="module">
@@ -22,7 +27,7 @@
     const IMAGE_DELAY = 3000;
     const BIO_DELAY = 4000;
     const MATH_DELAY = 4000;
-    const IMAGE_WIDTH = 500;
+    const IMAGE_WIDTH = 700;
 
     class RandomPool {
       #values;
@@ -391,6 +396,7 @@
           type: jsPsychImageKeyboardResponse,
           stimulus: image,
           stimulus_width: IMAGE_WIDTH,
+          prompt: `<br />${name}`,
           choices: 'NO_KEYS',
           trial_duration: IMAGE_DELAY,
           data: { image },
@@ -413,6 +419,7 @@
           type: jsPsychImageKeyboardResponse,
           stimulus: image,
           stimulus_width: IMAGE_WIDTH,
+          prompt: `<br />${name}`,
           choices: 'NO_KEYS',
           trial_duration: IMAGE_DELAY,
           data: { image },
@@ -441,6 +448,7 @@
           type: jsPsychImageKeyboardResponse,
           stimulus: image,
           stimulus_width: IMAGE_WIDTH,
+          prompt: `<br />${name}`,
           choices: 'NO_KEYS',
           trial_duration: IMAGE_DELAY,
         },
@@ -548,7 +556,25 @@
 
     const timeline = sequenceLearningPhase();
 
-    function sequenceTesting() {}
+    function sequenceRecognitionTest() {
+      return [
+        // {
+        //   type: jsPsychHtmlKeyboardResponse,
+        //   stimulus: `<p>${expression} = ?</p>`,
+        //   choices: ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9'],
+        //   trial_duration: MATH_DELAY,
+        //   data: { expression, answer },
+        //   on_finish(data) {
+        //     // Score the keyboard response as correct or incorrect.
+        //     data.correct = jsPsych.pluginAPI.compareKeys(data.response, answer);
+        //   },
+        // },
+      ];
+    }
+
+    function sequenceNameRecallTest() {
+      return [];
+    }
 
     // For debugging purposes to see the table of the timeline in the browser's dev tools
     console.table(timeline, ['stimulus', 'duration']);
@@ -571,18 +597,20 @@
           type: jsPsychHtmlKeyboardResponse,
           stimulus: 'Welcome to the experiment. Press any key to begin.',
         },
-        // ...timeline,
-        {
-          type: jsPsychHtmlKeyboardResponse,
-          stimulus: 'You will now watch a short video. Press any key to start.',
-        },
-        {
-          type: jsPsychVideoKeyboardResponse,
-          stimulus: ['video.mp4'],
-          width: document.body.clientWidth,
-          choices: 'NO_KEYS',
-          trial_ends_after_video: true,
-        },
+        ...timeline,
+        // {
+        //   type: jsPsychHtmlKeyboardResponse,
+        //   stimulus: 'You will now watch a short video. Press any key to start.',
+        // },
+        // {
+        //   type: jsPsychVideoKeyboardResponse,
+        //   stimulus: ['video.mp4'],
+        //   width: document.body.clientWidth,
+        //   choices: 'NO_KEYS',
+        //   trial_ends_after_video: true,
+        // },
+        ...sequenceRecognitionTest(),
+        ...sequenceNameRecallTest(),
       ])
       .then(() => {
         // this code runs when the timeline finishes
