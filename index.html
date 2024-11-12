@@ -204,68 +204,113 @@
       'Faith',
     ]);
 
-    const descriptionPool = new RandomPool(1, [
-      'description 1',
-      'description 2',
-      'description 3',
-      'description 4',
-      'description 5',
-      'description 6',
-      'description 7',
-      'description 8',
-      'description 9',
-      'description 10',
-      'description 11',
-      'description 12',
-      'description 13',
-      'description 14',
-      'description 15',
-      'description 16',
-      'description 17',
-      'description 18',
-      'description 19',
-      'description 20',
-      'description 21',
-      'description 22',
-      'description 23',
-      'description 24',
-      'description 25',
-      'description 26',
-      'description 27',
-      'description 28',
-      'description 29',
-      'description 30',
-      'description 31',
-      'description 32',
-      'description 33',
-      'description 34',
-      'description 35',
-      'description 36',
-      'description 37',
-      'description 38',
-      'description 39',
-      'description 40',
-      'description 41',
-      'description 42',
-      'description 43',
-      'description 44',
-      'description 45',
-      'description 46',
-      'description 47',
-      'description 48',
-      'description 49',
-      'description 50',
-      'description 51',
-      'description 52',
-      'description 53',
-      'description 54',
-    ]);
+    const positiveBehaviors = [
+      'brings homemade meals for the team when work gets hectic.',
+      'helps neighbors carry large boxes up multiple flights without hesitation.',
+      'spends weekends volunteering at the local animal shelter with enthusiasm.',
+      'offers up a bus seat to someone standing, without being asked.',
+      'throws surprise birthday parties, complete with balloons and thoughtful gifts.',
+      'stays late to help friends finish up big projects.',
+      'checks in on friends feeling down, calling to brighten their day.',
+      'prepares hearty dinners for family when someone feels under the weather.',
+      'surprises coworkers with coffee on busy mornings to boost morale. ',
+    ];
 
-    const MALE_IMAGES = ['./male.png'];
-    const FEMALE_IMAGES = ['./female.jpeg'];
+    const negativeBehaviors = [
+      'interrupts others during meetings, taking over conversations without notice.',
+      'avoids helping friends who carry heavy groceries up long staircases.',
+      'ignores group messages that ask for help organizing events.',
+      'takes calls loudly at dinner, distracting everyone eating nearby.',
+      'borrows items from friends and returns them noticeably damaged.',
+      'cuts in line at crowded cafés, frustrating everyone waiting behind.',
+      'refuses to lower loud music while others try to study.',
+      "leaves trash on tables after lunch, ignoring others' requests to clean.",
+      'frequently speaks over others in group discussions, disregarding their input',
+    ];
 
-    const maleImagePool = new RandomPool(54, MALE_IMAGES);
-    const femaleImagePool = new RandomPool(54, FEMALE_IMAGES);
+    const neutralBehaviors = [
+      'strolls around the block after lunch daily to clear their mind.',
+      'reads mystery novels in the park every Sunday, rain or shine.',
+      'watches nature documentaries after dinner each night to relax.',
+      'cooks fresh pasta dinners on Sunday evenings as a weekend treat.',
+      'rearranges the bedroom closet on Saturdays to keep things organized.',
+      'goes grocery shopping weekly to stock up on fresh ingredients.',
+      'takes the car to the wash every weekend to keep it spotless.',
+      'spends an hour rearranging living room furniture to refresh the space.',
+      'organizes a collection of potted plants on the balcony every few weeks for a fresh look.',
+    ];
+
+    const asianMaleImages = [
+      './images/AM-201.jpg',
+      './images/AM-202.jpg',
+      './images/AM-207.jpg',
+      './images/AM-211.jpg',
+      './images/AM-221.jpg',
+      './images/AM-229.jpg',
+      './images/AM-231.jpg',
+      './images/AM-237.jpg',
+      './images/AM-252.jpg',
+    ];
+
+    const latinoMaleImages = [
+      './images/LM-200.jpg',
+      './images/LM-207.jpg',
+      './images/LM-208.jpg',
+      './images/LM-210.jpg',
+      './images/LM-223.jpg',
+      './images/LM-231.jpg',
+      './images/LM-239.jpg',
+      './images/LM-241.jpg',
+      './images/LM-243.jpg',
+    ];
+
+    const whiteMaleImages = [
+      './images/WM-004.jpg',
+      './images/WM-009.jpg',
+      './images/WM-031.jpg',
+      './images/WM-033.jpg',
+      './images/WM-036.jpg',
+      './images/WM-040.jpg',
+      './images/WM-200.jpg',
+      './images/WM-208.jpg',
+      './images/WM-209.jpg',
+    ];
+
+    const asianFemaleImages = [
+      './images/AF-205.jpg',
+      './images/AF-219.jpg',
+      './images/AF-225.jpg',
+      './images/AF-226.jpg',
+      './images/AF-227.jpg',
+      './images/AF-228.jpg',
+      './images/AF-244.jpg',
+      './images/AF-252.jpg',
+      './images/AF-255.jpg',
+    ];
+
+    const latinaFemaleImages = [
+      './images/LF-201.jpg',
+      './images/LF-209.jpg',
+      './images/LF-211.jpg',
+      './images/LF-212.jpg',
+      './images/LF-213.jpg',
+      './images/LF-241.jpg',
+      './images/LF-243.jpg',
+      './images/LF-247.jpg',
+      './images/LF-251.jpg',
+    ];
+
+    const whiteFemaleImages = [
+      './images/WF-007.jpg',
+      './images/WF-017.jpg',
+      './images/WF-027.jpg',
+      './images/WF-206.jpg',
+      './images/WF-207.jpg',
+      './images/WF-214.jpg',
+      './images/WF-233.jpg',
+      './images/WF-235.jpg',
+      './images/WF-244.jpg',
+    ];
 
     // Randomly create a male or female name/image/description.
     function makeRandomPerson() {
@@ -440,7 +485,14 @@
         {
           type: jsPsychPreload,
           // paths of images to load.
-          images: [...MALE_IMAGES, ...FEMALE_IMAGES],
+          images: [
+            ...asianMaleImages,
+            ...latinoMaleImages,
+            ...whiteMaleImages,
+            ...asianFemaleImages,
+            ...latinaFemaleImages,
+            ...whiteFemaleImages,
+          ],
         },
         {
           type: jsPsychHtmlKeyboardResponse,
