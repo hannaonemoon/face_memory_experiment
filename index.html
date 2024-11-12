@@ -1,0 +1,446 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>My experiment</title>
+    <script src="https://unpkg.com/jspsych@8.0.3"></script>
+    <script src="https://unpkg.com/@jspsych/plugin-html-keyboard-response@2.0.0"></script>
+    <script src="https://unpkg.com/@jspsych/plugin-image-keyboard-response@2.0.0"></script>
+    <script src="https://unpkg.com/@jspsych/plugin-preload@2.0.0"></script>
+    <link href="https://unpkg.com/jspsych@8.0.3/css/jspsych.css" rel="stylesheet" type="text/css" />
+  </head>
+  <body></body>
+  <script type="module">
+    const jsPsych = initJsPsych();
+
+    // Function that randomly shuffles an array.
+    const shuffle = jsPsych.randomization.shuffle;
+
+    // Update these values to change the delay for certain trials
+    const NAME_DELAY = 2000;
+    const IMAGE_DELAY = 3000;
+    const BIO_DELAY = 4000;
+    const MATH_DELAY = 4000;
+    const IMAGE_WIDTH = 500;
+
+    class RandomPool {
+      #values;
+      #occurrence;
+      #pickedValues = new Map();
+
+      constructor(occurrence, values) {
+        this.#occurrence = occurrence;
+        this.#values = [...values];
+      }
+
+      pickRandomValue() {
+        if (this.#values.length === 0) {
+          throw new Error('Pool is empty');
+        }
+
+        const index = Math.floor(Math.random() * this.#values.length);
+        const value = this.#values[index];
+        const numberOfOccurrence = (this.#pickedValues.get(value) ?? 0) + 1;
+
+        if (numberOfOccurrence >= this.#occurrence) {
+          this.#values.splice(index, 1);
+        }
+
+        this.#pickedValues.set(value, numberOfOccurrence);
+
+        return value;
+      }
+    }
+
+    const maleNamePool = new RandomPool(2, [
+      'Santino',
+      'Kasey',
+      'Austin',
+      'Douglas',
+      'Nathaniel',
+      'Maxim',
+      'Jon',
+      'Alfonso',
+      'Marcel',
+      'Jermaine',
+      'Kenyon',
+      'Dillan',
+      'Deandre',
+      'Jaydon',
+      'Izaiah',
+      'Mario',
+      'Gilberto',
+      'Antony',
+      'Samuel',
+      'Drake',
+      'Tyson',
+      'Gavyn',
+      'Alonso',
+      'Walter',
+      'Cornelius',
+      'Kendrick',
+      'Louis',
+      'Elvis',
+      'Everett',
+      'Christian',
+      'Noel',
+      'Aaden',
+      'Wilson',
+      'Quinten',
+      'Jase',
+      'Joe',
+      'Raiden',
+      'Geovanni',
+      'Brodie',
+      'Aden',
+      'Gianni',
+      'Jensen',
+      'Keagan',
+      'Keaton',
+      'Hugo',
+      'Isiah',
+      'Carsen',
+      'Amare',
+      'Ethan',
+      'Clark',
+      'Deshawn',
+      'Kamren',
+      'Jackson',
+      'Leonard',
+    ]);
+
+    const femaleNamePool = new RandomPool(2, [
+      'Amani',
+      'Akira',
+      'Rayne',
+      'Emmalee',
+      'Selah',
+      'Miranda',
+      'Eliza',
+      'Ayanna',
+      'Madeline',
+      'Miya',
+      'Jada',
+      'Jaylyn',
+      'Alannah',
+      'Mckinley',
+      'Amaris',
+      'Marissa',
+      'Alice',
+      'Valentina',
+      'Sarah',
+      'Jolie',
+      'Annabel',
+      'Brooklyn',
+      'Rosemary',
+      'Renee',
+      'Kaitlyn',
+      'Kimora',
+      'Jazlene',
+      'Isabelle',
+      'Aliyah',
+      'Hailey',
+      'Fiona',
+      'Peyton',
+      'Cheyenne',
+      'Jaliyah',
+      'Raina',
+      'Hayley',
+      'Kassandra',
+      'Asia',
+      'Francesca',
+      'Carly',
+      'Autumn',
+      'Patience',
+      'Valerie',
+      'Mackenzie',
+      'Daphne',
+      'Sophie',
+      'Emily',
+      'Rachel',
+      'Aubree',
+      'Gianna',
+      'Campbell',
+      'Lyric',
+      'Esther',
+      'Kylee',
+    ]);
+
+    const descriptionPool = new RandomPool(1, [
+      'description 1',
+      'description 2',
+      'description 3',
+      'description 4',
+      'description 5',
+      'description 6',
+      'description 7',
+      'description 8',
+      'description 9',
+      'description 10',
+      'description 11',
+      'description 12',
+      'description 13',
+      'description 14',
+      'description 15',
+      'description 16',
+      'description 17',
+      'description 18',
+      'description 19',
+      'description 20',
+      'description 21',
+      'description 22',
+      'description 23',
+      'description 24',
+      'description 25',
+      'description 26',
+      'description 27',
+      'description 28',
+      'description 29',
+      'description 30',
+      'description 31',
+      'description 32',
+      'description 33',
+      'description 34',
+      'description 35',
+      'description 36',
+      'description 37',
+      'description 38',
+      'description 39',
+      'description 40',
+      'description 41',
+      'description 42',
+      'description 43',
+      'description 44',
+      'description 45',
+      'description 46',
+      'description 47',
+      'description 48',
+      'description 49',
+      'description 50',
+      'description 51',
+      'description 52',
+      'description 53',
+      'description 54',
+    ]);
+
+    const MALE_IMAGES = ['./male.png'];
+    const FEMALE_IMAGES = ['./female.jpeg'];
+
+    const maleImagePool = new RandomPool(54, MALE_IMAGES);
+    const femaleImagePool = new RandomPool(54, FEMALE_IMAGES);
+
+    // Randomly create a male or female name/image/description.
+    function makeRandomPerson() {
+      if (Math.random() < 0.5) {
+        return {
+          name: femaleNamePool.pickRandomValue(),
+          description: descriptionPool.pickRandomValue(),
+          image: femaleImagePool.pickRandomValue(),
+        };
+      }
+
+      return {
+        name: maleNamePool.pickRandomValue(),
+        description: descriptionPool.pickRandomValue(),
+        image: maleImagePool.pickRandomValue(),
+      };
+    }
+
+    function createRandomMathTrial() {
+      // TODO: generate different math expressions.
+      const expression = '3 + 12 = 15';
+      const answer = 't';
+      return [
+        {
+          type: jsPsychHtmlKeyboardResponse,
+          stimulus: `<p>${expression}</p><p>T/F?</p>`,
+          choices: ['t', 'f'],
+          trial_duration: MATH_DELAY,
+          data: { expression, answer },
+          on_finish(data) {
+            // Score the keyboard response as correct or incorrect.
+            data.correct = jsPsych.pluginAPI.compareKeys(data.response, answer);
+          },
+        },
+        {
+          type: jsPsychHtmlKeyboardResponse,
+          stimulus() {
+            const lastTrial = jsPsych.data.get().last(1).values()[0];
+
+            return `<p>${expression}</p><p>${lastTrial.correct ? 'Correct!' : 'Wrong.'}</p>`;
+          },
+          choices: 'NO_KEYS',
+          trial_duration() {
+            const lastTrial = jsPsych.data.get().last(1).values()[0];
+            const BASE_FEEDBACK_TIME = 1000;
+            // Currently always shows feedback for 1 second + any extra time left over
+            if (lastTrial.rt === null) return 1000;
+
+            return MATH_DELAY - lastTrial.rt + BASE_FEEDBACK_TIME;
+          },
+        },
+      ];
+    }
+
+    // Helper to general a biography-first trial.
+    function createBioFirstTrial() {
+      const { name, description, image } = makeRandomPerson();
+
+      return [
+        {
+          type: jsPsychHtmlKeyboardResponse,
+          stimulus: name,
+          choices: 'NO_KEYS',
+          trial_duration: NAME_DELAY,
+          data: { name },
+        },
+        {
+          type: jsPsychHtmlKeyboardResponse,
+          stimulus: description,
+          choices: 'NO_KEYS',
+          trial_duration: BIO_DELAY,
+          data: { description },
+        },
+        {
+          type: jsPsychImageKeyboardResponse,
+          stimulus: image,
+          stimulus_width: IMAGE_WIDTH,
+          choices: 'NO_KEYS',
+          trial_duration: IMAGE_DELAY,
+          data: { image },
+        },
+        ...createRandomMathTrial(),
+      ];
+    }
+
+    // Helper to general a face-first trial.
+    function createFaceFirstTrial() {
+      const { name, description, image } = makeRandomPerson();
+
+      return [
+        {
+          type: jsPsychHtmlKeyboardResponse,
+          stimulus: name,
+          choices: 'NO_KEYS',
+          trial_duration: NAME_DELAY,
+          data: { name },
+        },
+        {
+          type: jsPsychImageKeyboardResponse,
+          stimulus: image,
+          stimulus_width: IMAGE_WIDTH,
+          choices: 'NO_KEYS',
+          trial_duration: IMAGE_DELAY,
+        },
+        {
+          type: jsPsychHtmlKeyboardResponse,
+          stimulus: description,
+          choices: 'NO_KEYS',
+          trial_duration: BIO_DELAY,
+        },
+        ...createRandomMathTrial(),
+      ];
+    }
+
+    // Helper to general a control trial.
+    function createControlTrail() {
+      const { name, description, image } = makeRandomPerson();
+
+      return [
+        {
+          type: jsPsychHtmlKeyboardResponse,
+          stimulus: name,
+          choices: 'NO_KEYS',
+          trial_duration: NAME_DELAY,
+        },
+        {
+          type: jsPsychImageKeyboardResponse,
+          stimulus: image,
+          stimulus_width: IMAGE_WIDTH,
+          choices: 'NO_KEYS',
+          trial_duration: IMAGE_DELAY,
+        },
+        {
+          type: jsPsychHtmlKeyboardResponse,
+          stimulus: name,
+          choices: 'NO_KEYS',
+          trial_duration: NAME_DELAY,
+        },
+        ...createRandomMathTrial(),
+      ];
+    }
+
+    function sequenceLearningPhase() {
+      // Lets assume the length of each pool is the same as this constant.
+      const numberOfTrials = 3;
+      // A list of randomized pools, one for each condition.
+      // You'll have to update this hardcoded list (or generate it) with the proper names and descriptions.
+      // Images are assumed to be in an `/img` folder in the same directory as this HTML file and labeled with the names of person display.
+      const pools = [
+        shuffle(Array.from({ length: numberOfTrials }).map(createControlTrail)),
+        shuffle(Array.from({ length: numberOfTrials }).map(createFaceFirstTrial)),
+        shuffle(Array.from({ length: numberOfTrials }).map(createBioFirstTrial)),
+      ];
+
+      const sequence = [];
+
+      // Interleave the pools together, but make sure there are at most 2 repeating conditions.
+      for (let i = 0; i < numberOfTrials; i++) {
+        sequence.push(...shuffle(pools.map((pool) => pool[i])));
+      }
+
+      // Flatten the sequence out into a single array for jspsych.
+      return sequence.flat();
+    }
+
+    const timeline = sequenceLearningPhase();
+
+    // For debugging purposes to see the table of the timeline in the browser's dev tools
+    console.table(timeline, ['stimulus', 'duration']);
+
+    jsPsych
+      .run([
+        {
+          type: jsPsychPreload,
+          // paths of images to load.
+          images: [...MALE_IMAGES, ...FEMALE_IMAGES],
+        },
+        {
+          type: jsPsychHtmlKeyboardResponse,
+          stimulus: 'Welcome to the experiment. Press any key to begin.',
+        },
+        ...timeline,
+      ])
+      .then(() => {
+        // this code runs when the timeline finishes
+        const table = convertTrialDataToTable();
+        downloadCSV('trial_result.csv', table);
+      });
+
+    function convertTrialDataToTable() {
+      const trials = jsPsych.data.get();
+      console.log(trials);
+      const table = [['index', 'stimulus', 'math_expression', 'math_answer', 'math_correct']];
+
+      // the first trial on the timeline is to preload images
+      for (const trial of trials) {
+        if (trial.trial_type === 'image-keyboard-response') {
+          table.push([trial.trial_index, trial.stimulus, '', '', '']);
+        } else if (trial.trial_type === 'html-keyboard-response') {
+          table.push([trial.trial_index, trial.stimulus, trial.expression || '', trial.answer, trial.correct]);
+        }
+      }
+
+      return table;
+    }
+
+    function downloadCSV(filename, table) {
+      const link = document.createElement('a');
+      link.href = encodeURI(`data:text/csv;charset=utf-8,${table.map((e) => e.join(',')).join('\n')}`);
+      link.setAttribute('download', filename);
+      link.style.display = 'none';
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+    }
+  </script>
+</html>
