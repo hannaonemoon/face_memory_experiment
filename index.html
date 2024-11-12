@@ -5,6 +5,8 @@
     <script src="https://unpkg.com/jspsych@8.0.3"></script>
     <script src="https://unpkg.com/@jspsych/plugin-html-keyboard-response@2.0.0"></script>
     <script src="https://unpkg.com/@jspsych/plugin-image-keyboard-response@2.0.0"></script>
+    <script src="https://unpkg.com/@jspsych/plugin-image-keyboard-response@2.0.0"></script>
+    <script src="https://unpkg.com/@jspsych/plugin-video-keyboard-response@2.0.0"></script>
     <script src="https://unpkg.com/@jspsych/plugin-preload@2.0.0"></script>
     <link href="https://unpkg.com/jspsych@8.0.3/css/jspsych.css" rel="stylesheet" type="text/css" />
   </head>
@@ -546,6 +548,8 @@
 
     const timeline = sequenceLearningPhase();
 
+    function sequenceTesting() {}
+
     // For debugging purposes to see the table of the timeline in the browser's dev tools
     console.table(timeline, ['stimulus', 'duration']);
 
@@ -567,7 +571,18 @@
           type: jsPsychHtmlKeyboardResponse,
           stimulus: 'Welcome to the experiment. Press any key to begin.',
         },
-        ...timeline,
+        // ...timeline,
+        {
+          type: jsPsychHtmlKeyboardResponse,
+          stimulus: 'You will now watch a short video. Press any key to start.',
+        },
+        {
+          type: jsPsychVideoKeyboardResponse,
+          stimulus: ['video.mp4'],
+          width: document.body.clientWidth,
+          choices: 'NO_KEYS',
+          trial_ends_after_video: true,
+        },
       ])
       .then(() => {
         // this code runs when the timeline finishes
