@@ -97,7 +97,7 @@
       { expression: '5 - 5', answer: '0' },
     ]);
 
-    const maleNamePool = new RandomPool(2, [
+    const maleNames = [
       'Jacob',
       'Michael',
       'Joshua',
@@ -152,9 +152,9 @@
       'Aaron',
       'Connor',
       'Aiden',
-    ]);
+    ];
 
-    const femaleNamePool = new RandomPool(2, [
+    const femaleNames = [
       'Emily',
       'Madison',
       'Emma',
@@ -209,9 +209,9 @@
       'Lillian',
       'Andrea',
       'Faith',
-    ]);
+    ];
 
-    const positiveBehaviorsPool = new RandomPool(1, [
+    const positiveBehaviors = [
       'brings homemade meals for the team when work gets hectic.',
       'helps neighbors carry large boxes up multiple flights without hesitation.',
       'spends weekends volunteering at the local animal shelter with enthusiasm.',
@@ -224,9 +224,9 @@
       'organizes a team-building activity to strengthen relationships among colleagues.',
       'happily volunteers to babysit for a friend who needs a night off.',
       'sends thoughtful thank-you notes to coworkers for their support on projects.',
-    ]);
+    ];
 
-    const negativeBehaviorsPool = new RandomPool(1, [
+    const negativeBehaviors = [
       'interrupts others during meetings, taking over conversations without notice.',
       'avoids helping friends who carry heavy groceries up long staircases.',
       'ignores group messages that ask for help organizing events.',
@@ -239,9 +239,9 @@
       'leaves dirty dishes in the office sink for others to clean.',
       'consistently shows up late to group meetings, making others wait.',
       "criticizes others' ideas without offering constructive feedback.",
-    ]);
+    ];
 
-    const neutralBehaviorsPool = new RandomPool(1, [
+    const neutralBehaviors = [
       'strolls around the block after lunch daily to clear their mind.',
       'reads mystery novels in the park every Sunday, rain or shine.',
       'watches nature documentaries after dinner each night to relax.',
@@ -254,7 +254,7 @@
       'watches a favorite TV show every Friday evening as a weekly ritual.',
       'reads the newspaper each morning while drinking a cup of coffee.',
       'schedules a monthly check-up with the dentist to maintain oral health.',
-    ]);
+    ];
 
     const asianMaleImages = [
       './images/AM-201.jpg',
@@ -268,8 +268,6 @@
       './images/AM-252.jpg',
     ];
 
-    const asianMaleImagesPool = new RandomPool(1, asianMaleImages);
-
     const latinoMaleImages = [
       './images/LM-200.jpg',
       './images/LM-207.jpg',
@@ -281,8 +279,6 @@
       './images/LM-241.jpg',
       './images/LM-243.jpg',
     ];
-
-    const latinoMaleImagesPool = new RandomPool(1, latinoMaleImages);
 
     const whiteMaleImages = [
       './images/WM-004.jpg',
@@ -296,8 +292,6 @@
       './images/WM-209.jpg',
     ];
 
-    const whiteMaleImagesPool = new RandomPool(1, whiteMaleImages);
-
     const asianFemaleImages = [
       './images/AF-205.jpg',
       './images/AF-219.jpg',
@@ -310,8 +304,6 @@
       './images/AF-255.jpg',
     ];
 
-    const asianFemaleImagesPool = new RandomPool(1, asianFemaleImages);
-
     const latinaFemaleImages = [
       './images/LF-201.jpg',
       './images/LF-209.jpg',
@@ -323,8 +315,6 @@
       './images/LF-247.jpg',
       './images/LF-251.jpg',
     ];
-
-    const latinaFemaleImagesPool = new RandomPool(1, latinaFemaleImages);
 
     const whiteFemaleImages = [
       './images/WF-007.jpg',
@@ -346,8 +336,6 @@
       ...latinaFemaleImages,
       ...whiteFemaleImages,
     ];
-
-    const whiteFemaleImagesPool = new RandomPool(1, whiteFemaleImages);
 
     function createRandomMathTrial() {
       const { expression, answer } = mathPool.pickRandom();
@@ -384,8 +372,12 @@
       ];
     }
 
+    const identifies = [];
+
     // Helper to general a biography-first trial.
-    function createBioFirstTrial(name, image, behavior) {
+    function createBioFirstTrial(name, image, behavior, race, gender, behaviorType) {
+      identifies.push({ condition: 'bio-first', name, image, behavior, race, gender, behaviorType });
+
       return [
         {
           type: jsPsychHtmlKeyboardResponse,
@@ -415,7 +407,9 @@
     }
 
     // Helper to general a face-first trial.
-    function createFaceFirstTrial(name, image, behavior) {
+    function createFaceFirstTrial(name, image, behavior, race, gender, behaviorType) {
+      identifies.push({ condition: 'face-first', name, image, behavior, race, gender, behaviorType });
+
       return [
         {
           type: jsPsychHtmlKeyboardResponse,
@@ -445,7 +439,9 @@
     }
 
     // Helper to general a control trial.
-    function createControlTrail(name, image) {
+    function createControlTrail(name, image, race, gender) {
+      identifies.push({ condition: 'control', name, image, race, gender });
+
       return [
         {
           type: jsPsychHtmlKeyboardResponse,
@@ -472,88 +468,352 @@
     }
 
     function sequenceLearningPhase() {
+      const maleNamePool = new RandomPool(2, maleNames);
+      const femaleNamePool = new RandomPool(2, femaleNames);
+      const positiveBehaviorsPool = new RandomPool(1, positiveBehaviors);
+      const neutralBehaviorsPool = new RandomPool(1, neutralBehaviors);
+      const negativeBehaviorsPool = new RandomPool(1, negativeBehaviors);
+      const asianMaleImagesPool = new RandomPool(1, asianMaleImages);
+      const latinoMaleImagesPool = new RandomPool(1, latinoMaleImages);
+      const whiteMaleImagesPool = new RandomPool(1, whiteMaleImages);
+      const asianFemaleImagesPool = new RandomPool(1, asianFemaleImages);
+      const latinaFemaleImagesPool = new RandomPool(1, latinaFemaleImages);
+      const whiteFemaleImagesPool = new RandomPool(1, whiteFemaleImages);
+
       // A list of randomized pools, one for each condition.
       // You'll have to update this hardcoded list (or generate it) with the proper names and descriptions.
       // Images are assumed to be in an `/img` folder in the same directory as this HTML file and labeled with the names of person display.
 
       const controlPools = [
         shuffle([
-          createControlTrail(maleNamePool.pickRandom(), asianMaleImagesPool.pickRandom()),
-          createControlTrail(maleNamePool.pickRandom(), whiteMaleImagesPool.pickRandom()),
-          createControlTrail(maleNamePool.pickRandom(), latinoMaleImagesPool.pickRandom()),
-          createControlTrail(femaleNamePool.pickRandom(), latinaFemaleImagesPool.pickRandom()),
-          createControlTrail(femaleNamePool.pickRandom(), asianFemaleImagesPool.pickRandom()),
-          createControlTrail(femaleNamePool.pickRandom(), whiteFemaleImagesPool.pickRandom()),
+          createControlTrail(maleNamePool.pickRandom(), asianMaleImagesPool.pickRandom(), 'asian', 'Male'),
+          createControlTrail(maleNamePool.pickRandom(), latinoMaleImagesPool.pickRandom(), 'latino', 'Male'),
+          createControlTrail(maleNamePool.pickRandom(), whiteMaleImagesPool.pickRandom(), 'white', 'Male'),
+          createControlTrail(femaleNamePool.pickRandom(), asianFemaleImagesPool.pickRandom(), 'asian', 'Female'),
+          createControlTrail(femaleNamePool.pickRandom(), latinaFemaleImagesPool.pickRandom(), 'latino', 'Female'),
+          createControlTrail(femaleNamePool.pickRandom(), whiteFemaleImagesPool.pickRandom(), 'white', 'Female'),
         ]),
         shuffle([
-          createControlTrail(maleNamePool.pickRandom(), asianMaleImagesPool.pickRandom()),
-          createControlTrail(maleNamePool.pickRandom(), latinoMaleImagesPool.pickRandom()),
-          createControlTrail(maleNamePool.pickRandom(), whiteMaleImagesPool.pickRandom()),
-          createControlTrail(femaleNamePool.pickRandom(), asianFemaleImagesPool.pickRandom()),
-          createControlTrail(femaleNamePool.pickRandom(), latinaFemaleImagesPool.pickRandom()),
-          createControlTrail(femaleNamePool.pickRandom(), whiteFemaleImagesPool.pickRandom()),
+          createControlTrail(maleNamePool.pickRandom(), asianMaleImagesPool.pickRandom(), 'asian', 'Male'),
+          createControlTrail(maleNamePool.pickRandom(), latinoMaleImagesPool.pickRandom(), 'latino', 'Male'),
+          createControlTrail(maleNamePool.pickRandom(), whiteMaleImagesPool.pickRandom(), 'white', 'Male'),
+          createControlTrail(femaleNamePool.pickRandom(), asianFemaleImagesPool.pickRandom(), 'asian', 'Female'),
+          createControlTrail(femaleNamePool.pickRandom(), latinaFemaleImagesPool.pickRandom(), 'latino', 'Female'),
+          createControlTrail(femaleNamePool.pickRandom(), whiteFemaleImagesPool.pickRandom(), 'white', 'Female'),
         ]),
         shuffle([
-          createControlTrail(maleNamePool.pickRandom(), asianMaleImagesPool.pickRandom()),
-          createControlTrail(maleNamePool.pickRandom(), whiteMaleImagesPool.pickRandom()),
-          createControlTrail(maleNamePool.pickRandom(), latinoMaleImagesPool.pickRandom()),
-          createControlTrail(femaleNamePool.pickRandom(), asianFemaleImagesPool.pickRandom()),
-          createControlTrail(femaleNamePool.pickRandom(), latinaFemaleImagesPool.pickRandom()),
-          createControlTrail(femaleNamePool.pickRandom(), whiteFemaleImagesPool.pickRandom()),
+          createControlTrail(maleNamePool.pickRandom(), asianMaleImagesPool.pickRandom(), 'asian', 'Male'),
+          createControlTrail(maleNamePool.pickRandom(), whiteMaleImagesPool.pickRandom(), 'white', 'Male'),
+          createControlTrail(maleNamePool.pickRandom(), latinoMaleImagesPool.pickRandom(), 'latino', 'Male'),
+          createControlTrail(femaleNamePool.pickRandom(), asianFemaleImagesPool.pickRandom(), 'asian', 'Female'),
+          createControlTrail(femaleNamePool.pickRandom(), latinaFemaleImagesPool.pickRandom(), 'latino', 'Female'),
+          createControlTrail(femaleNamePool.pickRandom(), whiteFemaleImagesPool.pickRandom(), 'white', 'Female'),
         ]),
       ];
 
       const facePools = [
         shuffle([
-          createFaceFirstTrial(maleNamePool.pickRandom(), asianMaleImagesPool.pickRandom(), neutralBehaviorsPool.pickRandom()),
-          createFaceFirstTrial(maleNamePool.pickRandom(), latinoMaleImagesPool.pickRandom(), neutralBehaviorsPool.pickRandom()),
-          createFaceFirstTrial(maleNamePool.pickRandom(), whiteMaleImagesPool.pickRandom(), neutralBehaviorsPool.pickRandom()),
-          createFaceFirstTrial(femaleNamePool.pickRandom(), asianFemaleImagesPool.pickRandom(), neutralBehaviorsPool.pickRandom()),
-          createFaceFirstTrial(femaleNamePool.pickRandom(), latinaFemaleImagesPool.pickRandom(), neutralBehaviorsPool.pickRandom()),
-          createFaceFirstTrial(femaleNamePool.pickRandom(), whiteFemaleImagesPool.pickRandom(), neutralBehaviorsPool.pickRandom()),
+          createFaceFirstTrial(
+            maleNamePool.pickRandom(),
+            asianMaleImagesPool.pickRandom(),
+            neutralBehaviorsPool.pickRandom(),
+            'asian',
+            'Male',
+            'neutral'
+          ),
+          createFaceFirstTrial(
+            maleNamePool.pickRandom(),
+            latinoMaleImagesPool.pickRandom(),
+            neutralBehaviorsPool.pickRandom(),
+            'latino',
+            'Male',
+            'neutral'
+          ),
+          createFaceFirstTrial(
+            maleNamePool.pickRandom(),
+            whiteMaleImagesPool.pickRandom(),
+            neutralBehaviorsPool.pickRandom(),
+            'white',
+            'Male',
+            'neutral'
+          ),
+          createFaceFirstTrial(
+            femaleNamePool.pickRandom(),
+            asianFemaleImagesPool.pickRandom(),
+            neutralBehaviorsPool.pickRandom(),
+            'asian',
+            'Female',
+            'neutral'
+          ),
+          createFaceFirstTrial(
+            femaleNamePool.pickRandom(),
+            latinaFemaleImagesPool.pickRandom(),
+            neutralBehaviorsPool.pickRandom(),
+            'latino',
+            'Female',
+            'neutral'
+          ),
+          createFaceFirstTrial(
+            femaleNamePool.pickRandom(),
+            whiteFemaleImagesPool.pickRandom(),
+            neutralBehaviorsPool.pickRandom(),
+            'white',
+            'Female',
+            'neutral'
+          ),
         ]),
         shuffle([
-          createFaceFirstTrial(maleNamePool.pickRandom(), asianMaleImagesPool.pickRandom(), positiveBehaviorsPool.pickRandom()),
-          createFaceFirstTrial(maleNamePool.pickRandom(), latinoMaleImagesPool.pickRandom(), positiveBehaviorsPool.pickRandom()),
-          createFaceFirstTrial(maleNamePool.pickRandom(), whiteMaleImagesPool.pickRandom(), positiveBehaviorsPool.pickRandom()),
-          createFaceFirstTrial(femaleNamePool.pickRandom(), asianFemaleImagesPool.pickRandom(), positiveBehaviorsPool.pickRandom()),
-          createFaceFirstTrial(femaleNamePool.pickRandom(), latinaFemaleImagesPool.pickRandom(), positiveBehaviorsPool.pickRandom()),
-          createFaceFirstTrial(femaleNamePool.pickRandom(), whiteFemaleImagesPool.pickRandom(), positiveBehaviorsPool.pickRandom()),
+          createFaceFirstTrial(
+            maleNamePool.pickRandom(),
+            asianMaleImagesPool.pickRandom(),
+            positiveBehaviorsPool.pickRandom(),
+            'asian',
+            'Male',
+            'positive'
+          ),
+          createFaceFirstTrial(
+            maleNamePool.pickRandom(),
+            latinoMaleImagesPool.pickRandom(),
+            positiveBehaviorsPool.pickRandom(),
+            'latino',
+            'Male',
+            'positive'
+          ),
+          createFaceFirstTrial(
+            maleNamePool.pickRandom(),
+            whiteMaleImagesPool.pickRandom(),
+            positiveBehaviorsPool.pickRandom(),
+            'white',
+            'Male',
+            'positive'
+          ),
+          createFaceFirstTrial(
+            femaleNamePool.pickRandom(),
+            asianFemaleImagesPool.pickRandom(),
+            positiveBehaviorsPool.pickRandom(),
+            'asian',
+            'Female',
+            'positive'
+          ),
+          createFaceFirstTrial(
+            femaleNamePool.pickRandom(),
+            latinaFemaleImagesPool.pickRandom(),
+            positiveBehaviorsPool.pickRandom(),
+            'latino',
+            'Female',
+            'positive'
+          ),
+          createFaceFirstTrial(
+            femaleNamePool.pickRandom(),
+            whiteFemaleImagesPool.pickRandom(),
+            positiveBehaviorsPool.pickRandom(),
+            'white',
+            'Female',
+            'positive'
+          ),
         ]),
         shuffle([
-          createFaceFirstTrial(maleNamePool.pickRandom(), asianMaleImagesPool.pickRandom(), negativeBehaviorsPool.pickRandom()),
-          createFaceFirstTrial(maleNamePool.pickRandom(), latinoMaleImagesPool.pickRandom(), negativeBehaviorsPool.pickRandom()),
-          createFaceFirstTrial(maleNamePool.pickRandom(), whiteMaleImagesPool.pickRandom(), negativeBehaviorsPool.pickRandom()),
-          createFaceFirstTrial(femaleNamePool.pickRandom(), asianFemaleImagesPool.pickRandom(), negativeBehaviorsPool.pickRandom()),
-          createFaceFirstTrial(femaleNamePool.pickRandom(), latinaFemaleImagesPool.pickRandom(), negativeBehaviorsPool.pickRandom()),
-          createFaceFirstTrial(femaleNamePool.pickRandom(), whiteFemaleImagesPool.pickRandom(), negativeBehaviorsPool.pickRandom()),
+          createFaceFirstTrial(
+            maleNamePool.pickRandom(),
+            asianMaleImagesPool.pickRandom(),
+            negativeBehaviorsPool.pickRandom(),
+            'asian',
+            'Male',
+            'negative'
+          ),
+          createFaceFirstTrial(
+            maleNamePool.pickRandom(),
+            latinoMaleImagesPool.pickRandom(),
+            negativeBehaviorsPool.pickRandom(),
+            'latino',
+            'Male',
+            'negative'
+          ),
+          createFaceFirstTrial(
+            maleNamePool.pickRandom(),
+            whiteMaleImagesPool.pickRandom(),
+            negativeBehaviorsPool.pickRandom(),
+            'white',
+            'Male',
+            'negative'
+          ),
+          createFaceFirstTrial(
+            femaleNamePool.pickRandom(),
+            asianFemaleImagesPool.pickRandom(),
+            negativeBehaviorsPool.pickRandom(),
+            'asian',
+            'Female',
+            'negative'
+          ),
+          createFaceFirstTrial(
+            femaleNamePool.pickRandom(),
+            latinaFemaleImagesPool.pickRandom(),
+            negativeBehaviorsPool.pickRandom(),
+            'latino',
+            'Female',
+            'negative'
+          ),
+          createFaceFirstTrial(
+            femaleNamePool.pickRandom(),
+            whiteFemaleImagesPool.pickRandom(),
+            negativeBehaviorsPool.pickRandom(),
+            'white',
+            'Female',
+            'negative'
+          ),
         ]),
       ];
 
       const bioPools = [
         shuffle([
-          createBioFirstTrial(maleNamePool.pickRandom(), asianMaleImagesPool.pickRandom(), positiveBehaviorsPool.pickRandom()),
-          createBioFirstTrial(maleNamePool.pickRandom(), latinoMaleImagesPool.pickRandom(), positiveBehaviorsPool.pickRandom()),
-          createBioFirstTrial(maleNamePool.pickRandom(), whiteMaleImagesPool.pickRandom(), positiveBehaviorsPool.pickRandom()),
-          createBioFirstTrial(femaleNamePool.pickRandom(), asianFemaleImagesPool.pickRandom(), positiveBehaviorsPool.pickRandom()),
-          createBioFirstTrial(femaleNamePool.pickRandom(), latinaFemaleImagesPool.pickRandom(), positiveBehaviorsPool.pickRandom()),
-          createBioFirstTrial(femaleNamePool.pickRandom(), whiteFemaleImagesPool.pickRandom(), positiveBehaviorsPool.pickRandom()),
+          createBioFirstTrial(
+            maleNamePool.pickRandom(),
+            asianMaleImagesPool.pickRandom(),
+            positiveBehaviorsPool.pickRandom(),
+            'asian',
+            'Male',
+            'positive'
+          ),
+          createBioFirstTrial(
+            maleNamePool.pickRandom(),
+            latinoMaleImagesPool.pickRandom(),
+            positiveBehaviorsPool.pickRandom(),
+            'latino',
+            'Male',
+            'positive'
+          ),
+          createBioFirstTrial(
+            maleNamePool.pickRandom(),
+            whiteMaleImagesPool.pickRandom(),
+            positiveBehaviorsPool.pickRandom(),
+            'white',
+            'Male',
+            'positive'
+          ),
+          createBioFirstTrial(
+            femaleNamePool.pickRandom(),
+            asianFemaleImagesPool.pickRandom(),
+            positiveBehaviorsPool.pickRandom(),
+            'asian',
+            'Female',
+            'positive'
+          ),
+          createBioFirstTrial(
+            femaleNamePool.pickRandom(),
+            latinaFemaleImagesPool.pickRandom(),
+            positiveBehaviorsPool.pickRandom(),
+            'latino',
+            'Female',
+            'positive'
+          ),
+          createBioFirstTrial(
+            femaleNamePool.pickRandom(),
+            whiteFemaleImagesPool.pickRandom(),
+            positiveBehaviorsPool.pickRandom(),
+            'white',
+            'Female',
+            'positive'
+          ),
         ]),
         shuffle([
-          createBioFirstTrial(maleNamePool.pickRandom(), asianMaleImagesPool.pickRandom(), negativeBehaviorsPool.pickRandom()),
-          createBioFirstTrial(maleNamePool.pickRandom(), latinoMaleImagesPool.pickRandom(), negativeBehaviorsPool.pickRandom()),
-          createBioFirstTrial(maleNamePool.pickRandom(), whiteMaleImagesPool.pickRandom(), negativeBehaviorsPool.pickRandom()),
-          createBioFirstTrial(femaleNamePool.pickRandom(), asianFemaleImagesPool.pickRandom(), negativeBehaviorsPool.pickRandom()),
-          createBioFirstTrial(femaleNamePool.pickRandom(), latinaFemaleImagesPool.pickRandom(), negativeBehaviorsPool.pickRandom()),
-          createBioFirstTrial(femaleNamePool.pickRandom(), whiteFemaleImagesPool.pickRandom(), negativeBehaviorsPool.pickRandom()),
+          createBioFirstTrial(
+            maleNamePool.pickRandom(),
+            asianMaleImagesPool.pickRandom(),
+            negativeBehaviorsPool.pickRandom(),
+            'asian',
+            'Male',
+            'negative'
+          ),
+          createBioFirstTrial(
+            maleNamePool.pickRandom(),
+            latinoMaleImagesPool.pickRandom(),
+            negativeBehaviorsPool.pickRandom(),
+            'latino',
+            'Male',
+            'negative'
+          ),
+          createBioFirstTrial(
+            maleNamePool.pickRandom(),
+            whiteMaleImagesPool.pickRandom(),
+            negativeBehaviorsPool.pickRandom(),
+            'white',
+            'Male',
+            'negative'
+          ),
+          createBioFirstTrial(
+            femaleNamePool.pickRandom(),
+            asianFemaleImagesPool.pickRandom(),
+            negativeBehaviorsPool.pickRandom(),
+            'asian',
+            'Female',
+            'negative'
+          ),
+          createBioFirstTrial(
+            femaleNamePool.pickRandom(),
+            latinaFemaleImagesPool.pickRandom(),
+            negativeBehaviorsPool.pickRandom(),
+            'latino',
+            'Female',
+            'negative'
+          ),
+          createBioFirstTrial(
+            femaleNamePool.pickRandom(),
+            whiteFemaleImagesPool.pickRandom(),
+            negativeBehaviorsPool.pickRandom(),
+            'white',
+            'Female',
+            'negative'
+          ),
         ]),
         shuffle([
-          createBioFirstTrial(maleNamePool.pickRandom(), asianMaleImagesPool.pickRandom(), neutralBehaviorsPool.pickRandom()),
-          createBioFirstTrial(maleNamePool.pickRandom(), latinoMaleImagesPool.pickRandom(), neutralBehaviorsPool.pickRandom()),
-          createBioFirstTrial(maleNamePool.pickRandom(), whiteMaleImagesPool.pickRandom(), neutralBehaviorsPool.pickRandom()),
-          createBioFirstTrial(femaleNamePool.pickRandom(), asianFemaleImagesPool.pickRandom(), neutralBehaviorsPool.pickRandom()),
-          createBioFirstTrial(femaleNamePool.pickRandom(), latinaFemaleImagesPool.pickRandom(), neutralBehaviorsPool.pickRandom()),
-          createBioFirstTrial(femaleNamePool.pickRandom(), whiteFemaleImagesPool.pickRandom(), neutralBehaviorsPool.pickRandom()),
+          createBioFirstTrial(
+            maleNamePool.pickRandom(),
+            asianMaleImagesPool.pickRandom(),
+            neutralBehaviorsPool.pickRandom(),
+            'asian',
+            'Male',
+            'neutral'
+          ),
+          createBioFirstTrial(
+            maleNamePool.pickRandom(),
+            latinoMaleImagesPool.pickRandom(),
+            neutralBehaviorsPool.pickRandom(),
+            'latino',
+            'Male',
+            'neutral'
+          ),
+          createBioFirstTrial(
+            maleNamePool.pickRandom(),
+            whiteMaleImagesPool.pickRandom(),
+            neutralBehaviorsPool.pickRandom(),
+            'white',
+            'Male',
+            'neutral'
+          ),
+          createBioFirstTrial(
+            femaleNamePool.pickRandom(),
+            asianFemaleImagesPool.pickRandom(),
+            neutralBehaviorsPool.pickRandom(),
+            'asian',
+            'Female',
+            'neutral'
+          ),
+          createBioFirstTrial(
+            femaleNamePool.pickRandom(),
+            latinaFemaleImagesPool.pickRandom(),
+            neutralBehaviorsPool.pickRandom(),
+            'latino',
+            'Female',
+            'neutral'
+          ),
+          createBioFirstTrial(
+            femaleNamePool.pickRandom(),
+            whiteFemaleImagesPool.pickRandom(),
+            neutralBehaviorsPool.pickRandom(),
+            'white',
+            'Female',
+            'neutral'
+          ),
         ]),
       ];
 
@@ -640,13 +900,128 @@
 
     function sequenceRecognitionTest() {
       return shuffle([
-        // ...lureImages.map((image) => makeRecognitionQuestion(image, '2')),
+        ...lureImages.map((image) => makeRecognitionQuestion(image, '2')),
         ...allImages.map((image) => makeRecognitionQuestion(image, '1')),
       ]);
     }
 
+    function createRecallQuestion(image, guesses, answer) {
+      return [
+        {
+          type: jsPsychHtmlKeyboardResponse,
+          stimulus: "What's their name?",
+          trial_duration: 1000,
+          choices: 'NO_KEYS',
+        },
+        {
+          type: jsPsychImageKeyboardResponse,
+          stimulus: image,
+          stimulus_width: IMAGE_WIDTH,
+          prompt: guesses.map((guess, i) => `<p>${i + 1}. ${guess}</p>`).join(''),
+          choices: ['1', '2', '3', '4', '5'],
+          data: { image, answer, guesses },
+          trial_duration: null,
+          on_finish(data) {
+            // Score the keyboard response as correct or incorrect.
+            data.correct = jsPsych.pluginAPI.compareKeys(data.response, answer);
+          },
+        },
+      ];
+    }
+
+    function pickRandomNameWithCriteria(predicate) {
+      const results = identifies.filter(predicate);
+
+      const identity = results[Math.floor(Math.random() * results.length)];
+
+      return identity.name;
+    }
+
     function sequenceNameRecallTest() {
-      return [];
+      return identifies.map(({ condition, name, image, behavior, race, gender, behaviorType }) => {
+        let guesses = [name];
+
+        if (condition === 'control') {
+          // same race, gender, and condition
+          // same race, gender and face-first w/ neutral behavior
+          // same race, gender behavior-first w/ neutral behavior
+          // same race and gender, condition 1 or 2 pos/negative behavior
+          guesses.push(
+            pickRandomNameWithCriteria(
+              (identity) =>
+                identity.race === race && identity.gender === gender && identity.condition === condition && identity.name !== name
+            ),
+            pickRandomNameWithCriteria(
+              (identity) =>
+                identity.race === race &&
+                identity.gender === gender &&
+                identity.condition === 'face-first' &&
+                identity.behaviorType === 'neutral'
+            ),
+            pickRandomNameWithCriteria(
+              (identity) =>
+                identity.race === race &&
+                identity.gender === gender &&
+                identity.condition === 'bio-first' &&
+                identity.behaviorType === 'neutral'
+            )
+          );
+
+          guesses.push(
+            pickRandomNameWithCriteria(
+              (identity) =>
+                identity.race === race &&
+                identity.gender === gender &&
+                identity.condition !== 'control' &&
+                identity.behaviorType !== 'neutral' &&
+                !guesses.includes(identity.name)
+            )
+          );
+        } else {
+          // same race, gender, and different condition
+          // same race, gender, and same condition, different behavior
+          // same race, gender, and same condition, different behavior
+          // different race, same gender, and same condition, same behavior
+          let b1;
+          let b2;
+
+          if (behaviorType === 'neutral') {
+            b1 = 'positive';
+            b2 = 'negative';
+          } else if (behaviorType === 'positive') {
+            b1 = 'neutral';
+            b2 = 'negative';
+          } else {
+            b1 = 'positive';
+            b2 = 'neutral';
+          }
+
+          guesses.push(
+            pickRandomNameWithCriteria(
+              (identity) => identity.race === race && identity.gender === gender && identity.condition !== condition
+            ),
+            pickRandomNameWithCriteria(
+              (identity) =>
+                identity.race === race && identity.gender === gender && identity.condition === condition && identity.behaviorType === b1
+            ),
+            pickRandomNameWithCriteria(
+              (identity) =>
+                identity.race === race && identity.gender === gender && identity.condition === 'bio-first' && identity.behaviorType === b2
+            ),
+            pickRandomNameWithCriteria(
+              (identity) =>
+                identity.race !== race &&
+                identity.gender === gender &&
+                identity.condition === condition &&
+                identity.behaviorType === behaviorType
+            )
+          );
+        }
+        guesses = shuffle(guesses);
+
+        const answer = guesses.findIndex((guess) => guess === name) + 1;
+        return createRecallQuestion(image, guesses, answer.toString());
+      });
     }
 
     const timeline = [
@@ -659,18 +1034,18 @@
         type: jsPsychHtmlKeyboardResponse,
         stimulus: 'Welcome to the experiment. Press any key to begin.',
       },
-      // ... sequenceLearningPhase(),
-      // {
-      //   type: jsPsychHtmlKeyboardResponse,
-      //   stimulus: 'You will now watch a short video. Press any key to start.',
-      // },
-      // {
-      //   type: jsPsychVideoKeyboardResponse,
-      //   stimulus: ['video.mp4'],
-      //   width: document.body.clientWidth,
-      //   choices: 'NO_KEYS',
-      //   trial_ends_after_video: true,
-      // },
+      ...sequenceLearningPhase(),
+      {
+        type: jsPsychHtmlKeyboardResponse,
+        stimulus: 'You will now watch a short video. Press any key to start.',
+      },
+      {
+        type: jsPsychVideoKeyboardResponse,
+        stimulus: ['video.mp4'],
+        width: document.body.clientWidth,
+        choices: 'NO_KEYS',
+        trial_ends_after_video: true,
+      },
       {
         type: jsPsychPreload,
         images: lureImages,
