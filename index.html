@@ -338,6 +338,15 @@
       './images/WF-244.jpg',
     ];
 
+    const allImages = [
+      ...asianMaleImages,
+      ...latinoMaleImages,
+      ...whiteMaleImages,
+      ...asianFemaleImages,
+      ...latinaFemaleImages,
+      ...whiteFemaleImages,
+    ];
+
     const whiteFemaleImagesPool = new RandomPool(1, whiteFemaleImages);
 
     function createRandomMathTrial() {
@@ -554,68 +563,134 @@
         .flat();
     }
 
-    const timeline = sequenceLearningPhase();
+    // lure_images/AF-206.jpg
+    // './images/WF-244.jpg',
+    const lureImages = [
+      './lure_images/AF-229.jpg',
+      './lure_images/AF-206.jpg',
+      './lure_images/AM-225.jpg',
+      './lure_images/LF-202.jpg',
+      './lure_images/LF-230.jpg',
+      './lure_images/LM-224.jpg',
+      './lure_images/WF-011.jpg',
+      './lure_images/WF-230.jpg',
+      './lure_images/WM-207.jpg',
+      './lure_images/AF-208.jpg',
+      './lure_images/AF-235.jpg',
+      './lure_images/AM-228.jpg',
+      './lure_images/LF-215.jpg',
+      './lure_images/LF-239.jpg',
+      './lure_images/LM-242.jpg',
+      './lure_images/WF-202.jpg',
+      './lure_images/WF-231.jpg',
+      './lure_images/WM-214.jpg',
+      './lure_images/AF-211.jpg',
+      './lure_images/AF-247.jpg',
+      './lure_images/AM-238.jpg',
+      './lure_images/LF-216.jpg',
+      './lure_images/LF-250.jpg',
+      './lure_images/LM-244.jpg',
+      './lure_images/WF-211.jpg',
+      './lure_images/WF-243.jpg',
+      './lure_images/WM-231.jpg',
+      './lure_images/AF-214.jpg',
+      './lure_images/AM-204.jpg',
+      './lure_images/AM-243.jpg',
+      './lure_images/LF-221.jpg',
+      './lure_images/LM-212.jpg',
+      './lure_images/LM-247.jpg',
+      './lure_images/WF-212.jpg',
+      './lure_images/WM-015.jpg',
+      './lure_images/WM-234.jpg',
+      './lure_images/AF-218.jpg',
+      './lure_images/AM-210.jpg',
+      './lure_images/AM-250.jpg',
+      './lure_images/LF-223.jpg',
+      './lure_images/LM-214.jpg',
+      './lure_images/LM-248.jpg',
+      './lure_images/WF-213.jpg',
+      './lure_images/WM-032.jpg',
+      './lure_images/WM-237.jpg',
+      './lure_images/AF-221.jpg',
+      './lure_images/AM-216.jpg',
+      './lure_images/AM-253.jpg',
+      './lure_images/LF-228.jpg',
+      './lure_images/LM-216.jpg',
+      './lure_images/LM-252.jpg',
+      './lure_images/WF-218.jpg',
+      './lure_images/WM-034.jpg',
+      './lure_images/WM-250.jpg',
+    ];
+
+    function makeRecognitionQuestion(image, answer) {
+      return {
+        type: jsPsychImageKeyboardResponse,
+        stimulus: image,
+        stimulus_width: IMAGE_WIDTH,
+        prompt: `<br />Press "1" if previously seen, "2" if never seen.`,
+        choices: ['1', '2'],
+        data: { image, answer },
+        trial_duration: null,
+        on_finish(data) {
+          // Score the keyboard response as correct or incorrect.
+          data.correct = jsPsych.pluginAPI.compareKeys(data.response, answer);
+        },
+      };
+    }
 
     function sequenceRecognitionTest() {
-      return [
-        // {
-        //   type: jsPsychHtmlKeyboardResponse,
-        //   stimulus: `<p>${expression} = ?</p>`,
-        //   choices: ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9'],
-        //   trial_duration: MATH_DELAY,
-        //   data: { expression, answer },
-        //   on_finish(data) {
-        //     // Score the keyboard response as correct or incorrect.
-        //     data.correct = jsPsych.pluginAPI.compareKeys(data.response, answer);
-        //   },
-        // },
-      ];
+      return shuffle([
+        // ...lureImages.map((image) => makeRecognitionQuestion(image, '2')),
+        ...allImages.map((image) => makeRecognitionQuestion(image, '1')),
+      ]);
     }
 
     function sequenceNameRecallTest() {
       return [];
     }
 
-    // For debugging purposes to see the table of the timeline in the browser's dev tools
-    console.table(timeline, ['stimulus', 'duration']);
+    const timeline = [
+      {
+        type: jsPsychPreload,
+        // paths of images to load.
+        images: allImages,
+      },
+      {
+        type: jsPsychHtmlKeyboardResponse,
+        stimulus: 'Welcome to the experiment. Press any key to begin.',
+      },
+      // ... sequenceLearningPhase(),
+      // {
+      //   type: jsPsychHtmlKeyboardResponse,
+      //   stimulus: 'You will now watch a short video. Press any key to start.',
+      // },
+      // {
+      //   type: jsPsychVideoKeyboardResponse,
+      //   stimulus: ['video.mp4'],
+      //   width: document.body.clientWidth,
+      //   choices: 'NO_KEYS',
+      //   trial_ends_after_video: true,
+      // },
+      {
+        type: jsPsychPreload,
+        images: lureImages,
+      },
+      {
+        type: jsPsychHtmlKeyboardResponse,
+        stimulus: 'Instructions for recognition test', // TODO
+      },
+      ...sequenceRecognitionTest(),
+      {
+        type: jsPsychHtmlKeyboardResponse,
+        stimulus: 'Instructions for recall test', // TODO
+      },
+      ...sequenceNameRecallTest(),
+    ];
 
-    jsPsych
-      .run([
-        {
-          type: jsPsychPreload,
-          // paths of images to load.
-          images: [
-            ...asianMaleImages,
-            ...latinoMaleImages,
-            ...whiteMaleImages,
-            ...asianFemaleImages,
-            ...latinaFemaleImages,
-            ...whiteFemaleImages,
-          ],
-        },
-        {
-          type: jsPsychHtmlKeyboardResponse,
-          stimulus: 'Welcome to the experiment. Press any key to begin.',
-        },
-        ...timeline,
-        // {
-        //   type: jsPsychHtmlKeyboardResponse,
-        //   stimulus: 'You will now watch a short video. Press any key to start.',
-        // },
-        // {
-        //   type: jsPsychVideoKeyboardResponse,
-        //   stimulus: ['video.mp4'],
-        //   width: document.body.clientWidth,
-        //   choices: 'NO_KEYS',
-        //   trial_ends_after_video: true,
-        // },
-        ...sequenceRecognitionTest(),
-        ...sequenceNameRecallTest(),
-      ])
-      .then(() => {
-        // this code runs when the timeline finishes
-        downloadCSV('trial_result.csv', jsPsych.data.get().csv());
-      });
+    jsPsych.run(timeline).then(() => {
+      // this code runs when the timeline finishes
+      downloadCSV('trial_result.csv', jsPsych.data.get().csv());
+    });
 
     function downloadCSV(filename, table) {
       const link = document.createElement('a');
