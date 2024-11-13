@@ -29,6 +29,14 @@
     const MATH_DELAY = 4000;
     const IMAGE_WIDTH = 700;
 
+    const FirstInstruction = `
+      <div style="font-size: 24pt; line-height: 1.5; max-width: 800px; margin: auto; text-align: center;">
+      <p>During this experiment, you will be shown photographs of different identities and, for some, their associated identity information (e.g., description of their behavior).</p>
+      <p>Please try to remember all faces and identity information that has been presented. Each identity is equally important to remember, and you will be tested on your memory at the end of the experiment.</p>
+      <p>When you are ready, press any key to begin.</p>
+    </div>
+  `;
+
     class RandomPool {
       #values;
       #occurrence;
@@ -1032,7 +1040,7 @@
       },
       {
         type: jsPsychHtmlKeyboardResponse,
-        stimulus: 'Welcome to the experiment. Press any key to begin.',
+        stimulus: FirstInstruction,
       },
       ...sequenceLearningPhase(),
       {
