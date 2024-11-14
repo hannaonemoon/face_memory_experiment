@@ -1,2 +1,2 @@
 # hanna's study
-# yay 
+# yay file:///Users/hannamoon/Documents/experiment/face_memory_experiment/index.html
