@@ -990,31 +990,27 @@
           // same race, gender, and same condition, different behavior
           // same race, gender, and same condition, different behavior
           // different race, same gender, and same condition, same behavior
-          let b1;
-          let b2;
-
-          if (behaviorType === 'neutral') {
-            b1 = 'positive';
-            b2 = 'negative';
-          } else if (behaviorType === 'positive') {
-            b1 = 'neutral';
-            b2 = 'negative';
-          } else {
-            b1 = 'positive';
-            b2 = 'neutral';
-          }
-
           guesses.push(
             pickRandomNameWithCriteria(
               (identity) => identity.race === race && identity.gender === gender && identity.condition !== condition
+            )
+          );
+
+          guesses.push(
+            pickRandomNameWithCriteria(
+              (identity) =>
+                identity.race === race &&
+                identity.gender === gender &&
+                identity.condition === condition &&
+                identity.behaviorType !== behaviorType
             ),
             pickRandomNameWithCriteria(
               (identity) =>
-                identity.race === race && identity.gender === gender && identity.condition === condition && identity.behaviorType !== behaviorType
-            ),
-            pickRandomNameWithCriteria(
-              (identity) =>
-                identity.race === race && identity.gender === gender && identity.condition !== condition && identity.behaviorType !== behaviorType
+                identity.race === race &&
+                identity.gender === gender &&
+                identity.condition !== condition &&
+                identity.behaviorType !== behaviorType &&
+                !guesses.includes(identity.name)
             ), // re-code the behavior type
             pickRandomNameWithCriteria(
               (identity) =>
