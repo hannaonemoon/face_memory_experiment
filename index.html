@@ -476,8 +476,8 @@
     }
 
     function sequenceLearningPhase() {
-      const maleNamePool = new RandomPool(2, maleNames);
-      const femaleNamePool = new RandomPool(2, femaleNames);
+      const maleNamePool = new RandomPool(1, maleNames);
+      const femaleNamePool = new RandomPool(1, femaleNames);
       const positiveBehaviorsPool = new RandomPool(1, positiveBehaviors);
       const neutralBehaviorsPool = new RandomPool(1, neutralBehaviors);
       const negativeBehaviorsPool = new RandomPool(1, negativeBehaviors);
@@ -1010,12 +1010,12 @@
             ),
             pickRandomNameWithCriteria(
               (identity) =>
-                identity.race === race && identity.gender === gender && identity.condition === condition && identity.behaviorType === b1
+                identity.race === race && identity.gender === gender && identity.condition === condition && identity.behaviorType !== behaviorType
             ),
             pickRandomNameWithCriteria(
               (identity) =>
-                identity.race === race && identity.gender === gender && identity.condition === 'bio-first' && identity.behaviorType === b2
-            ),
+                identity.race === race && identity.gender === gender && identity.condition !== condition && identity.behaviorType !== behaviorType
+            ), // re-code the behavior type
             pickRandomNameWithCriteria(
               (identity) =>
                 identity.race !== race &&
