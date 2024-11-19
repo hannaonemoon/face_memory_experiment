@@ -13,6 +13,11 @@
     <style>
       * {
         font-family: 'Roboto';
+        font-size: 36px;
+      }
+
+      br {
+        margin: 1lh;
       }
     </style>
   </head>
@@ -421,7 +426,6 @@
     // Helper to general a face-first trial.
     function createFaceFirstTrial(name, image, behavior, race, gender, behaviorType) {
       identifies.push({ condition: 'face-first', name, image, behavior, race, gender, behaviorType });
-
       return [
         {
           type: jsPsychHtmlKeyboardResponse,
@@ -915,10 +919,9 @@
           <div><strong>5</strong><br>Probably<br>Familiar</div> 
           <div><strong>6</strong><br>Definitely<br>Familiar</div> </div>`,
         choices: ['1', '2', '3', '4', '5', '6'],
-        data: { image, correct_answers: recogAnswers },
+        data: { question_type: 'recognition', image, correct_answers: recogAnswers },
         trial_duration: null,
         on_finish(data) {
-          console.log(data.response, recogAnswers);
           // Score the keyboard response using confidence rating, where 1-3 is new and 4-6 is old
           data.correct = recogAnswers.includes(data.response);
           data.participant_response = data.response;
@@ -933,7 +936,7 @@
       ]);
     }
 
-    function createRecallQuestion(image, nameGuesses, nameAnswer, behaviorAnswer,name,gender,race,condition,behaviorType) {
+    function createRecallQuestion(image, nameGuesses, nameAnswer, behaviorAnswer, name, gender, race, condition, behaviorType) {
       return [
         {
           type: jsPsychHtmlKeyboardResponse,
@@ -947,7 +950,7 @@
           stimulus_width: IMAGE_WIDTH,
           prompt: nameGuesses.map((nameGuesses, i) => `<p>${i + 1}. ${nameGuesses}</p>`).join(''),
           choices: ['1', '2', '3', '4', '5'],
-          data: { image, name,gender,race,condition,nameGuesses, nameAnswer},
+          data: { question_type: 'recall', image, name, gender, race, condition, nameGuesses, nameAnswer },
           trial_duration: null,
           on_finish(data) {
             // Score the keyboard response as correct or incorrect.
@@ -965,7 +968,7 @@
           <p>3. Neutral</p>
           <p>4. No behavior</p>`,
           choices: ['1', '2', '3', '4'],
-          data: { image,behaviorType,behaviorAnswer},
+          data: { question_type: 'behavior', image, behaviorType, behaviorAnswer },
           trial_duration: null,
           on_finish(data) {
             // Determine the correct response based on `behaviorType`
@@ -1075,10 +1078,20 @@
             }
           })();
 
-          return createRecallQuestion(image, nameGuesses, nameAnswer.toString(), behaviorAnswer.toString(),name,gender,race,condition,behaviorType);
+          return createRecallQuestion(
+            image,
+            nameGuesses,
+            nameAnswer.toString(),
+            behaviorAnswer.toString(),
+            name,
+            gender,
+            race,
+            condition,
+            behaviorType
+          );
         })
       );
-  console.log(recall.flat());
+      console.log(recall.flat());
       return recall;
     }
 
@@ -1106,14 +1119,14 @@
       //   choices: 'NO_KEYS',
       //   trial_ends_after_video: true,
       // },
-      // {
-      //   type: jsPsychHtmlKeyboardResponse,
-      //   stimulus: `<p>Now, you will take a 2-part memory test.<p/>
-      //     <p>Please wait for the experimenter instructions.<p/>
-      //     <p>When prompted, press "1" to begin the first memory test.<p/>`,
-      //   choices: '1',
-      // },
-      // ...sequenceRecognitionTest(),
+      {
+        type: jsPsychHtmlKeyboardResponse,
+        stimulus: `<p>Now, you will take a 2-part memory test.<p/>
+          <p>Please wait for the experimenter instructions.<p/>
+          <p>When prompted, press "1" to begin the first memory test.<p/>`,
+        choices: '1',
+      },
+      ...sequenceRecognitionTest(),
       {
         type: jsPsychHtmlKeyboardResponse,
         stimulus: `<p>Now, you will take the second part of the memory test.<p/>
@@ -1124,7 +1137,21 @@
       ...sequenceNameRecallTest(),
       {
         type: jsPsychHtmlKeyboardResponse,
-        stimulus: 'You have completed the experiment. Thank you for your participation.',
+        stimulus() {
+          const data = jsPsych.data.get();
+
+          const recognition = data.filter({ question_type: 'recognition' });
+          const recognitionPercent = (100 * recognition.filter({ correct: true }).count()) / recognition.count();
+
+          const recall = data.filter({ question_type: 'recall' });
+          const recallPercent = (100 * recall.filter({ correct: true }).count()) / recall.count();
+
+          return `
+          <p>You have completed the experiment. Thank you for your participation.</p>
+          <p>Your recognition score is ${Math.round(recognitionPercent)}%.</p>
+          <p>Your recall score is ${Math.round(recallPercent)}%.</p>
+          `;
+        },
       },
     ];
 
