@@ -12,7 +12,8 @@
     <link href="https://unpkg.com/jspsych@8.0.3/css/jspsych.css" rel="stylesheet" type="text/css" />
     <style>
       * {
-        font-family: 'Roboto';}
+        font-family: 'Roboto';
+      }
     </style>
   </head>
   <body></body>
@@ -387,7 +388,7 @@
 
     // Helper to general a biography-first trial.
     function createBioFirstTrial(name, image, behavior, race, gender, behaviorType) {
-      identifies.push({ condition: 'bio-first', name, image, behavior, race, gender, behaviorType});
+      identifies.push({ condition: 'bio-first', name, image, behavior, race, gender, behaviorType });
 
       return [
         {
@@ -893,8 +894,6 @@
       './lure_images/WM-250.jpg',
     ];
 
-
-    
     function makeRecognitionQuestion(image, recogAnswers) {
       return {
         type: jsPsychImageKeyboardResponse,
@@ -907,8 +906,8 @@
           <div><strong>4</strong><br>Maybe<br>Familiar</div> 
           <div><strong>5</strong><br>Probably<br>Familiar</div> 
           <div><strong>6</strong><br>Definitely<br>Familiar</div> </div>`,
-        choices: ['1','2','3','4','5','6'],
-        data: { image, correct_answers: recogAnswers},
+        choices: ['1', '2', '3', '4', '5', '6'],
+        data: { image, correct_answers: recogAnswers },
         trial_duration: null,
         on_finish(data) {
           console.log(data.response, recogAnswers);
@@ -921,8 +920,8 @@
 
     function sequenceRecognitionTest() {
       return shuffle([
-        ...lureImages.map((image) => makeRecognitionQuestion(image,['1','2','3'])),
-        ...allImages.map((image) => makeRecognitionQuestion(image,['4','5','6'])),
+        ...lureImages.map((image) => makeRecognitionQuestion(image, ['1', '2', '3'])),
+        ...allImages.map((image) => makeRecognitionQuestion(image, ['4', '5', '6'])),
       ]);
     }
 
@@ -940,7 +939,7 @@
           stimulus_width: IMAGE_WIDTH,
           prompt: nameGuesses.map((nameGuesses, i) => `<p>${i + 1}. ${nameGuesses}</p>`).join(''),
           choices: ['1', '2', '3', '4', '5'],
-          data: { image,nameGuesses,nameAnswer},
+          data: { image, nameGuesses, nameAnswer },
           trial_duration: null,
           on_finish(data) {
             // Score the keyboard response as correct or incorrect.
@@ -957,14 +956,14 @@
           <p>2. Negative</p>
           <p>3. Neutral</p>
           <p>4. No behavior</p>`,
-          choices: ['1','2','3','4'],
-          data: {image,behaviorAnswer},
+          choices: ['1', '2', '3', '4'],
+          data: { image, behaviorAnswer },
           trial_duration: null,
           on_finish(data) {
             // Determine the correct response based on `behaviorType`
             data.correct = jsPsych.pluginAPI.compareKeys(data.response, behaviorAnswer);
           },
-        }
+        },
       ];
     }
 
@@ -976,19 +975,16 @@
       return identity.name;
     }
 
-    
     function sequenceNameRecallTest() {
-      return identifies.map(({ condition, name, image, behavior, race, gender, behaviorType }) => {
+      const recall = shuffle(
+        identifies.map(({ condition, name, image, behavior, race, gender, behaviorType }) => {
           let nameGuesses = [name];
-    
+
           if (condition === 'control') {
             nameGuesses.push(
               pickRandomNameWithCriteria(
                 (identity) =>
-                  identity.race === race &&
-                  identity.gender === gender &&
-                  identity.condition === condition &&
-                  identity.name !== name
+                  identity.race === race && identity.gender === gender && identity.condition === condition && identity.name !== name
               ),
               pickRandomNameWithCriteria(
                 (identity) =>
@@ -1005,7 +1001,7 @@
                   identity.behaviorType === 'neutral'
               )
             );
-    
+
             nameGuesses.push(
               pickRandomNameWithCriteria(
                 (identity) =>
@@ -1018,7 +1014,7 @@
             );
           } else {
             let b1, b2;
-    
+
             if (behaviorType === 'neutral') {
               b1 = 'positive';
               b2 = 'negative';
@@ -1029,7 +1025,7 @@
               b1 = 'positive';
               b2 = 'neutral';
             }
-    
+
             nameGuesses.push(
               pickRandomNameWithCriteria(
                 (identity) =>
@@ -1040,17 +1036,11 @@
               ),
               pickRandomNameWithCriteria(
                 (identity) =>
-                  identity.race === race &&
-                  identity.gender === gender &&
-                  identity.condition === condition &&
-                  identity.behaviorType === b1
+                  identity.race === race && identity.gender === gender && identity.condition === condition && identity.behaviorType === b1
               ),
               pickRandomNameWithCriteria(
                 (identity) =>
-                  identity.race === race &&
-                  identity.gender === gender &&
-                  identity.condition === condition &&
-                  identity.behaviorType === b2
+                  identity.race === race && identity.gender === gender && identity.condition === condition && identity.behaviorType === b2
               ),
               pickRandomNameWithCriteria(
                 (identity) =>
@@ -1061,7 +1051,7 @@
               )
             );
           }
-    
+
           nameGuesses = shuffle(nameGuesses);
           const nameAnswer = nameGuesses.findIndex((guess) => guess === name) + 1;
           const behaviorAnswer = (() => {
@@ -1076,25 +1066,13 @@
                 return '4';
             }
           })();
-    
-          console.log({
-            condition,
-            name,
-            image,
-            behavior,
-            race,
-            gender,
-            behaviorAnswer,
-            behaviorType,
-            nameGuesses,
-            nameAnswer,
-          });
-    
+
           return createRecallQuestion(image, nameGuesses, nameAnswer.toString(), behaviorAnswer.toString());
         })
-      ;
+      );
+
+      return recall;
     }
-    
 
     const timeline = [
       {
@@ -1106,7 +1084,7 @@
         type: jsPsychHtmlKeyboardResponse,
         stimulus: FirstInstruction,
       },
-    /*  ...sequenceLearningPhase(),
+      ...sequenceLearningPhase(),
       {
         type: jsPsychHtmlKeyboardResponse,
         stimulus: 'You will now watch a short video. Press any key to start.',
@@ -1128,11 +1106,11 @@
       ...sequenceRecognitionTest(),
       {
         type: jsPsychHtmlKeyboardResponse,
-        stimulus:  `<p>Now, you will take the second part of the memory test.<p/>
+        stimulus: `<p>Now, you will take the second part of the memory test.<p/>
           <p>Please wait for the experimenter instructions.<p/>
           <p>When prompted, press "1" to begin the second memory test.<p/>`,
         choices: '1',
-      },*/
+      },
       ...sequenceNameRecallTest(),
       {
         type: jsPsychHtmlKeyboardResponse,
