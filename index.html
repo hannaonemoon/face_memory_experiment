@@ -8,11 +8,11 @@
     <script src="https://unpkg.com/@jspsych/plugin-image-keyboard-response@2.0.0"></script>
     <script src="https://unpkg.com/@jspsych/plugin-video-keyboard-response@2.0.0"></script>
     <script src="https://unpkg.com/@jspsych/plugin-preload@2.0.0"></script>
+    <!-- <script src="https://unpkg.com/@jspsych/plugin-vd@2.0.0"></script> -->
     <link href="https://unpkg.com/jspsych@8.0.3/css/jspsych.css" rel="stylesheet" type="text/css" />
     <style>
       * {
-        font-size: 24px;
-      }
+        font-family: 'Roboto';}
     </style>
   </head>
   <body></body>
@@ -22,18 +22,21 @@
     // Function that randomly shuffles an array.
     const shuffle = jsPsych.randomization.shuffle;
 
-    // Update these values to change the delay for certain trials
+    // Update these values to change the delay for certian trials
     const NAME_DELAY = 2000;
     const IMAGE_DELAY = 3000;
-    const BIO_DELAY = 4000;
+    const BIO_DELAY = 5000;
     const MATH_DELAY = 4000;
     const IMAGE_WIDTH = 700;
 
     const FirstInstruction = `
-      <div style="font-size: 24pt; line-height: 1.5; max-width: 800px; margin: auto; text-align: center;">
-      <p>During this experiment, you will be shown photographs of different identities and, for some, their associated identity information (e.g., description of their behavior).</p>
-      <p>Please try to remember all faces and identity information that has been presented. Each identity is equally important to remember, and you will be tested on your memory at the end of the experiment.</p>
-      <p>When you are ready, press any key to begin.</p>
+      <div style="font-size:22px;line-height: 1.5; max-width: 1300px; margin: 5%; text-align: center;">
+      <p>During this experiment, you will be shown photographs of different identities, and,
+      for some, their associated identity information (e.g., description of their behavior).</p>
+      <p>Please try to remember all faces and identity information that has been presented.</p>
+      <p>Each identity is equally important to remember, and
+      you will be tested on your memory at the end of the experiment.</p>
+      <p><b>When you are ready, press any key to begin.</b></p>
     </div>
   `;
 
@@ -149,7 +152,7 @@
       'Hunter',
       'Jackson',
       'Angel',
-      'Isaiah',
+      'Isiaah',
       'Evan',
       'Isaac',
       'Luke',
@@ -159,7 +162,7 @@
       'Gavin',
       'Aaron',
       'Connor',
-      'Aiden',
+      'Kaiden',
     ];
 
     const femaleNames = [
@@ -168,7 +171,7 @@
       'Emma',
       'Olivia',
       'Hannah',
-      'Abigail',
+      'Abigial',
       'Isabella',
       'Samantha',
       'Elizabeth',
@@ -189,7 +192,7 @@
       'Anna',
       'Victoria',
       'Mia',
-      'Hailey',
+      'Hialey',
       'Sydney',
       'Jasmine',
       'Julia',
@@ -197,7 +200,7 @@
       'Destiny',
       'Rachel',
       'Ella',
-      'Kaitlyn',
+      'Kiatlyn',
       'Megan',
       'Katherine',
       'Savannah',
@@ -208,15 +211,15 @@
       'Maria',
       'Kaylee',
       'Lily',
-      'Makayla',
+      'Kayla',
       'Brooke',
       'Nicole',
       'Mackenzie',
       'Addison',
       'Stephanie',
-      'Lillian',
+      'Lilian',
       'Andrea',
-      'Faith',
+      'Fiath',
     ];
 
     const positiveBehaviors = [
@@ -236,22 +239,22 @@
 
     const negativeBehaviors = [
       'interrupts others during meetings, taking over conversations without notice.',
-      'avoids helping friends who carry heavy groceries up long staircases.',
+      'avoids helping friends who carry heavy groceries up long stiarcases.',
       'ignores group messages that ask for help organizing events.',
       'takes calls loudly at dinner, distracting everyone eating nearby.',
       'borrows items from friends and returns them noticeably damaged.',
-      'cuts in line at crowded cafés, frustrating everyone waiting behind.',
+      'cuts in line at crowded cafés, frustrating everyone wiating behind.',
       'refuses to lower loud music while others try to study.',
       "leaves trash on tables after lunch, ignoring others' requests to clean.",
       'frequently speaks over others in group discussions, disregarding their input',
       'leaves dirty dishes in the office sink for others to clean.',
-      'consistently shows up late to group meetings, making others wait.',
+      'consistently shows up late to group meetings, making others wiat.',
       "criticizes others' ideas without offering constructive feedback.",
     ];
 
     const neutralBehaviors = [
-      'strolls around the block after lunch daily to clear their mind.',
-      'reads mystery novels in the park every Sunday, rain or shine.',
+      'strolls around the block after lunch dialy to clear their mind.',
+      'reads mystery novels in the park every Sunday, rian or shine.',
       'watches nature documentaries after dinner each night to relax.',
       'cooks fresh pasta dinners on Sunday evenings as a weekend treat.',
       'rearranges the bedroom closet on Saturdays to keep things organized.',
@@ -261,7 +264,7 @@
       'organizes a collection of potted plants on the balcony every few weeks for a fresh look.',
       'watches a favorite TV show every Friday evening as a weekly ritual.',
       'reads the newspaper each morning while drinking a cup of coffee.',
-      'schedules a monthly check-up with the dentist to maintain oral health.',
+      'schedules a monthly check-up with the dentist to miantian oral health.',
     ];
 
     const asianMaleImages = [
@@ -370,9 +373,9 @@
           choices: 'NO_KEYS',
           trial_duration() {
             const lastTrial = jsPsych.data.get().last(1).values()[0];
-            const BASE_FEEDBACK_TIME = 1000;
+            const BASE_FEEDBACK_TIME = 500;
             // Currently always shows feedback for 1 second + any extra time left over
-            if (lastTrial.rt === null) return 1000;
+            if (lastTrial.rt === null) return 500;
 
             return MATH_DELAY - lastTrial.rt + BASE_FEEDBACK_TIME;
           },
@@ -384,7 +387,7 @@
 
     // Helper to general a biography-first trial.
     function createBioFirstTrial(name, image, behavior, race, gender, behaviorType) {
-      identifies.push({ condition: 'bio-first', name, image, behavior, race, gender, behaviorType });
+      identifies.push({ condition: 'bio-first', name, image, behavior, race, gender, behaviorType});
 
       return [
         {
@@ -447,7 +450,7 @@
     }
 
     // Helper to general a control trial.
-    function createControlTrail(name, image, race, gender) {
+    function createControlTrial(name, image, race, gender) {
       identifies.push({ condition: 'control', name, image, race, gender });
 
       return [
@@ -494,28 +497,28 @@
 
       const controlPools = [
         shuffle([
-          createControlTrail(maleNamePool.pickRandom(), asianMaleImagesPool.pickRandom(), 'asian', 'Male'),
-          createControlTrail(maleNamePool.pickRandom(), latinoMaleImagesPool.pickRandom(), 'latino', 'Male'),
-          createControlTrail(maleNamePool.pickRandom(), whiteMaleImagesPool.pickRandom(), 'white', 'Male'),
-          createControlTrail(femaleNamePool.pickRandom(), asianFemaleImagesPool.pickRandom(), 'asian', 'Female'),
-          createControlTrail(femaleNamePool.pickRandom(), latinaFemaleImagesPool.pickRandom(), 'latino', 'Female'),
-          createControlTrail(femaleNamePool.pickRandom(), whiteFemaleImagesPool.pickRandom(), 'white', 'Female'),
+          createControlTrial(maleNamePool.pickRandom(), asianMaleImagesPool.pickRandom(), 'asian', 'Male'),
+          createControlTrial(maleNamePool.pickRandom(), latinoMaleImagesPool.pickRandom(), 'latino', 'Male'),
+          createControlTrial(maleNamePool.pickRandom(), whiteMaleImagesPool.pickRandom(), 'white', 'Male'),
+          createControlTrial(femaleNamePool.pickRandom(), asianFemaleImagesPool.pickRandom(), 'asian', 'Female'),
+          createControlTrial(femaleNamePool.pickRandom(), latinaFemaleImagesPool.pickRandom(), 'latino', 'Female'),
+          createControlTrial(femaleNamePool.pickRandom(), whiteFemaleImagesPool.pickRandom(), 'white', 'Female'),
         ]),
         shuffle([
-          createControlTrail(maleNamePool.pickRandom(), asianMaleImagesPool.pickRandom(), 'asian', 'Male'),
-          createControlTrail(maleNamePool.pickRandom(), latinoMaleImagesPool.pickRandom(), 'latino', 'Male'),
-          createControlTrail(maleNamePool.pickRandom(), whiteMaleImagesPool.pickRandom(), 'white', 'Male'),
-          createControlTrail(femaleNamePool.pickRandom(), asianFemaleImagesPool.pickRandom(), 'asian', 'Female'),
-          createControlTrail(femaleNamePool.pickRandom(), latinaFemaleImagesPool.pickRandom(), 'latino', 'Female'),
-          createControlTrail(femaleNamePool.pickRandom(), whiteFemaleImagesPool.pickRandom(), 'white', 'Female'),
+          createControlTrial(maleNamePool.pickRandom(), asianMaleImagesPool.pickRandom(), 'asian', 'Male'),
+          createControlTrial(maleNamePool.pickRandom(), latinoMaleImagesPool.pickRandom(), 'latino', 'Male'),
+          createControlTrial(maleNamePool.pickRandom(), whiteMaleImagesPool.pickRandom(), 'white', 'Male'),
+          createControlTrial(femaleNamePool.pickRandom(), asianFemaleImagesPool.pickRandom(), 'asian', 'Female'),
+          createControlTrial(femaleNamePool.pickRandom(), latinaFemaleImagesPool.pickRandom(), 'latino', 'Female'),
+          createControlTrial(femaleNamePool.pickRandom(), whiteFemaleImagesPool.pickRandom(), 'white', 'Female'),
         ]),
         shuffle([
-          createControlTrail(maleNamePool.pickRandom(), asianMaleImagesPool.pickRandom(), 'asian', 'Male'),
-          createControlTrail(maleNamePool.pickRandom(), whiteMaleImagesPool.pickRandom(), 'white', 'Male'),
-          createControlTrail(maleNamePool.pickRandom(), latinoMaleImagesPool.pickRandom(), 'latino', 'Male'),
-          createControlTrail(femaleNamePool.pickRandom(), asianFemaleImagesPool.pickRandom(), 'asian', 'Female'),
-          createControlTrail(femaleNamePool.pickRandom(), latinaFemaleImagesPool.pickRandom(), 'latino', 'Female'),
-          createControlTrail(femaleNamePool.pickRandom(), whiteFemaleImagesPool.pickRandom(), 'white', 'Female'),
+          createControlTrial(maleNamePool.pickRandom(), asianMaleImagesPool.pickRandom(), 'asian', 'Male'),
+          createControlTrial(maleNamePool.pickRandom(), whiteMaleImagesPool.pickRandom(), 'white', 'Male'),
+          createControlTrial(maleNamePool.pickRandom(), latinoMaleImagesPool.pickRandom(), 'latino', 'Male'),
+          createControlTrial(femaleNamePool.pickRandom(), asianFemaleImagesPool.pickRandom(), 'asian', 'Female'),
+          createControlTrial(femaleNamePool.pickRandom(), latinaFemaleImagesPool.pickRandom(), 'latino', 'Female'),
+          createControlTrial(femaleNamePool.pickRandom(), whiteFemaleImagesPool.pickRandom(), 'white', 'Female'),
         ]),
       ];
 
@@ -890,50 +893,78 @@
       './lure_images/WM-250.jpg',
     ];
 
-    function makeRecognitionQuestion(image, answer) {
+
+    
+    function makeRecognitionQuestion(image, recogAnswers) {
       return {
         type: jsPsychImageKeyboardResponse,
         stimulus: image,
         stimulus_width: IMAGE_WIDTH,
-        prompt: `<br />Press "1" if previously seen, "2" if never seen.`,
-        choices: ['1', '2'],
-        data: { image, answer },
+        prompt: ` <div style="display: flex; justify-content: space-around; font-size: 18px; margin-top: 20px;"> 
+          <div><strong>1</strong><br>Definitely<br>Unfamiliar</div> 
+          <div><strong>2</strong><br>Probably<br>Unfamiliar</div> 
+          <div><strong>3</strong><br>Maybe<br>Unfamiliar</div> 
+          <div><strong>4</strong><br>Maybe<br>Familiar</div> 
+          <div><strong>5</strong><br>Probably<br>Familiar</div> 
+          <div><strong>6</strong><br>Definitely<br>Familiar</div> </div>`,
+        choices: ['1','2','3','4','5','6'],
+        data: { image, correct_answers: recogAnswers},
         trial_duration: null,
         on_finish(data) {
-          // Score the keyboard response as correct or incorrect.
-          data.correct = jsPsych.pluginAPI.compareKeys(data.response, answer);
+          console.log(data.response, recogAnswers);
+          // Score the keyboard response using confidence rating, where 1-3 is new and 4-6 is old
+          data.correct = recogAnswers.includes(data.response);
+          data.participant_response = data.response;
         },
       };
     }
 
     function sequenceRecognitionTest() {
       return shuffle([
-        ...lureImages.map((image) => makeRecognitionQuestion(image, '2')),
-        ...allImages.map((image) => makeRecognitionQuestion(image, '1')),
+        ...lureImages.map((image) => makeRecognitionQuestion(image,['1','2','3'])),
+        ...allImages.map((image) => makeRecognitionQuestion(image,['4','5','6'])),
       ]);
     }
 
-    function createRecallQuestion(image, guesses, answer) {
+    function createRecallQuestion(image, nameGuesses, nameAnswer, behaviorAnswer) {
       return [
         {
           type: jsPsychHtmlKeyboardResponse,
           stimulus: "What's their name?",
-          trial_duration: 1000,
+          trial_duration: 0,
           choices: 'NO_KEYS',
         },
         {
           type: jsPsychImageKeyboardResponse,
           stimulus: image,
           stimulus_width: IMAGE_WIDTH,
-          prompt: guesses.map((guess, i) => `<p>${i + 1}. ${guess}</p>`).join(''),
+          prompt: nameGuesses.map((nameGuesses, i) => `<p>${i + 1}. ${nameGuesses}</p>`).join(''),
           choices: ['1', '2', '3', '4', '5'],
-          data: { image, answer, guesses },
+          data: { image,nameGuesses,nameAnswer},
           trial_duration: null,
           on_finish(data) {
             // Score the keyboard response as correct or incorrect.
-            data.correct = jsPsych.pluginAPI.compareKeys(data.response, answer);
+            data.correct = jsPsych.pluginAPI.compareKeys(data.response, nameAnswer);
           },
         },
+        {
+          type: jsPsychImageKeyboardResponse,
+          stimulus: image,
+          stimulus_width: IMAGE_WIDTH,
+          prompt: `
+          <p>What type of behavior is associated with this person?</p>
+          <p>1. Positive</p>
+          <p>2. Negative</p>
+          <p>3. Neutral</p>
+          <p>4. No behavior</p>`,
+          choices: ['1','2','3','4'],
+          data: {image,behaviorAnswer},
+          trial_duration: null,
+          on_finish(data) {
+            // Determine the correct response based on `behaviorType`
+            data.correct = jsPsych.pluginAPI.compareKeys(data.response, behaviorAnswer);
+          },
+        }
       ];
     }
 
@@ -945,104 +976,137 @@
       return identity.name;
     }
 
+    
     function sequenceNameRecallTest() {
       return identifies.map(({ condition, name, image, behavior, race, gender, behaviorType }) => {
-        let guesses = [name];
-
-        if (condition === 'control') {
-          // same race, gender, and condition
-          // same race, gender and face-first w/ neutral behavior
-          // same race, gender behavior-first w/ neutral behavior
-          // same race and gender, condition 1 or 2 pos/negative behavior
-          guesses.push(
-            pickRandomNameWithCriteria(
-              (identity) =>
-                identity.race === race && identity.gender === gender && identity.condition === condition && identity.name !== name
-            ),
-            pickRandomNameWithCriteria(
-              (identity) =>
-                identity.race === race &&
-                identity.gender === gender &&
-                identity.condition === 'face-first' &&
-                identity.behaviorType === 'neutral'
-            ),
-            pickRandomNameWithCriteria(
-              (identity) =>
-                identity.race === race &&
-                identity.gender === gender &&
-                identity.condition === 'bio-first' &&
-                identity.behaviorType === 'neutral'
-            )
-          );
-
-          guesses.push(
-            pickRandomNameWithCriteria(
-              (identity) =>
-                identity.race === race &&
-                identity.gender === gender &&
-                identity.condition !== 'control' &&
-                identity.behaviorType !== 'neutral' &&
-                !guesses.includes(identity.name)
-            )
-          );
-        } else {
-          // same race, gender, and different condition
-          // same race, gender, and same condition, different behavior
-          // same race, gender, and same condition, different behavior
-          // different race, same gender, and same condition, same behavior
-          let b1;
-          let b2;
-
-          if (behaviorType === 'neutral') {
-            b1 = 'positive';
-            b2 = 'negative';
-          } else if (behaviorType === 'positive') {
-            b1 = 'neutral';
-            b2 = 'negative';
+          let nameGuesses = [name];
+    
+          if (condition === 'control') {
+            nameGuesses.push(
+              pickRandomNameWithCriteria(
+                (identity) =>
+                  identity.race === race &&
+                  identity.gender === gender &&
+                  identity.condition === condition &&
+                  identity.name !== name
+              ),
+              pickRandomNameWithCriteria(
+                (identity) =>
+                  identity.race === race &&
+                  identity.gender === gender &&
+                  identity.condition === 'face-first' &&
+                  identity.behaviorType === 'neutral'
+              ),
+              pickRandomNameWithCriteria(
+                (identity) =>
+                  identity.race === race &&
+                  identity.gender === gender &&
+                  identity.condition === 'bio-first' &&
+                  identity.behaviorType === 'neutral'
+              )
+            );
+    
+            nameGuesses.push(
+              pickRandomNameWithCriteria(
+                (identity) =>
+                  identity.race === race &&
+                  identity.gender === gender &&
+                  identity.condition !== 'control' &&
+                  identity.behaviorType !== 'neutral' &&
+                  !nameGuesses.includes(identity.name)
+              )
+            );
           } else {
-            b1 = 'positive';
-            b2 = 'neutral';
+            let b1, b2;
+    
+            if (behaviorType === 'neutral') {
+              b1 = 'positive';
+              b2 = 'negative';
+            } else if (behaviorType === 'positive') {
+              b1 = 'neutral';
+              b2 = 'negative';
+            } else {
+              b1 = 'positive';
+              b2 = 'neutral';
+            }
+    
+            nameGuesses.push(
+              pickRandomNameWithCriteria(
+                (identity) =>
+                  identity.race === race &&
+                  identity.gender === gender &&
+                  identity.condition !== condition &&
+                  identity.behaviorType === behaviorType
+              ),
+              pickRandomNameWithCriteria(
+                (identity) =>
+                  identity.race === race &&
+                  identity.gender === gender &&
+                  identity.condition === condition &&
+                  identity.behaviorType === b1
+              ),
+              pickRandomNameWithCriteria(
+                (identity) =>
+                  identity.race === race &&
+                  identity.gender === gender &&
+                  identity.condition === condition &&
+                  identity.behaviorType === b2
+              ),
+              pickRandomNameWithCriteria(
+                (identity) =>
+                  identity.race !== race &&
+                  identity.gender === gender &&
+                  identity.condition === condition &&
+                  identity.behaviorType === behaviorType
+              )
+            );
           }
-
-          guesses.push(
-            pickRandomNameWithCriteria(
-              (identity) => identity.race === race && identity.gender === gender && identity.condition !== condition
-            ),
-            pickRandomNameWithCriteria(
-              (identity) =>
-                identity.race === race && identity.gender === gender && identity.condition === condition && identity.behaviorType === b1
-            ),
-            pickRandomNameWithCriteria(
-              (identity) =>
-                identity.race === race && identity.gender === gender && identity.condition === 'bio-first' && identity.behaviorType === b2
-            ),
-            pickRandomNameWithCriteria(
-              (identity) =>
-                identity.race !== race &&
-                identity.gender === gender &&
-                identity.condition === condition &&
-                identity.behaviorType === behaviorType
-            )
-          );
-        }
-        guesses = shuffle(guesses);
-
-        const answer = guesses.findIndex((guess) => guess === name) + 1;
-        return createRecallQuestion(image, guesses, answer.toString());
-      });
+    
+          nameGuesses = shuffle(nameGuesses);
+          const nameAnswer = nameGuesses.findIndex((guess) => guess === name) + 1;
+          const behaviorAnswer = (() => {
+            switch (behaviorType) {
+              case 'positive':
+                return '1';
+              case 'negative':
+                return '2';
+              case 'neutral':
+                return '3';
+              default:
+                return '4';
+            }
+          })();
+    
+          console.log({
+            condition,
+            name,
+            image,
+            behavior,
+            race,
+            gender,
+            behaviorAnswer,
+            behaviorType,
+            nameGuesses,
+            nameAnswer,
+          });
+    
+          return createRecallQuestion(image, nameGuesses, nameAnswer.toString(), behaviorAnswer.toString());
+        })
+      ;
     }
+    
 
     const timeline = [
       {
         type: jsPsychPreload,
         // paths of images to load.
-        images: allImages,
+        images: [...allImages, ...lureImages],
       },
       {
         type: jsPsychHtmlKeyboardResponse,
         stimulus: FirstInstruction,
       },
-      ...sequenceLearningPhase(),
+    /*  ...sequenceLearningPhase(),
       {
         type: jsPsychHtmlKeyboardResponse,
         stimulus: 'You will now watch a short video. Press any key to start.',
@@ -1055,19 +1119,25 @@
         trial_ends_after_video: true,
       },
       {
-        type: jsPsychPreload,
-        images: lureImages,
-      },
-      {
         type: jsPsychHtmlKeyboardResponse,
-        stimulus: 'Instructions for recognition test', // TODO
+        stimulus: `<p>Now, you will take a 2-part memory test.<p/>
+          <p>Please wait for the experimenter instructions.<p/>
+          <p>When prompted, press "1" to begin the first memory test.<p/>`,
+        choices: '1',
       },
       ...sequenceRecognitionTest(),
       {
         type: jsPsychHtmlKeyboardResponse,
-        stimulus: 'Instructions for recall test', // TODO
-      },
+        stimulus:  `<p>Now, you will take the second part of the memory test.<p/>
+          <p>Please wait for the experimenter instructions.<p/>
+          <p>When prompted, press "1" to begin the second memory test.<p/>`,
+        choices: '1',
+      },*/
       ...sequenceNameRecallTest(),
+      {
+        type: jsPsychHtmlKeyboardResponse,
+        stimulus: 'You have completed the experiment. Thank you for your participation.',
+      },
     ];
 
     jsPsych.run(timeline).then(() => {
