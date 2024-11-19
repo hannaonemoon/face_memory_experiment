@@ -1074,6 +1074,8 @@
       return recall;
     }
 
+    sequenceLearningPhase(); // Delete this when we uncomment everything on the timeline
+
     const timeline = [
       {
         type: jsPsychPreload,
@@ -1084,26 +1086,26 @@
         type: jsPsychHtmlKeyboardResponse,
         stimulus: FirstInstruction,
       },
-      ...sequenceLearningPhase(),
-      {
-        type: jsPsychHtmlKeyboardResponse,
-        stimulus: 'You will now watch a short video. Press any key to start.',
-      },
-      {
-        type: jsPsychVideoKeyboardResponse,
-        stimulus: ['video.mp4'],
-        width: document.body.clientWidth,
-        choices: 'NO_KEYS',
-        trial_ends_after_video: true,
-      },
-      {
-        type: jsPsychHtmlKeyboardResponse,
-        stimulus: `<p>Now, you will take a 2-part memory test.<p/>
-          <p>Please wait for the experimenter instructions.<p/>
-          <p>When prompted, press "1" to begin the first memory test.<p/>`,
-        choices: '1',
-      },
-      ...sequenceRecognitionTest(),
+      // ...sequenceLearningPhase(),
+      // {
+      //   type: jsPsychHtmlKeyboardResponse,
+      //   stimulus: 'You will now watch a short video. Press any key to start.',
+      // },
+      // {
+      //   type: jsPsychVideoKeyboardResponse,
+      //   stimulus: ['video.mp4'],
+      //   width: document.body.clientWidth,
+      //   choices: 'NO_KEYS',
+      //   trial_ends_after_video: true,
+      // },
+      // {
+      //   type: jsPsychHtmlKeyboardResponse,
+      //   stimulus: `<p>Now, you will take a 2-part memory test.<p/>
+      //     <p>Please wait for the experimenter instructions.<p/>
+      //     <p>When prompted, press "1" to begin the first memory test.<p/>`,
+      //   choices: '1',
+      // },
+      // ...sequenceRecognitionTest(),
       {
         type: jsPsychHtmlKeyboardResponse,
         stimulus: `<p>Now, you will take the second part of the memory test.<p/>
