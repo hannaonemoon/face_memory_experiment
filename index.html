@@ -446,6 +446,14 @@
           trial_duration: BIO_DELAY,
           data: { behavior },
         },
+        {
+          type: jsPsychHtmlKeyboardResponse,
+          prompt: `<p>how would you rate their behavior?<p/>
+            <p>1-very trustworthy, 7-very untrustworthy<p/>`,
+          choices: ['0', '1', '2', '3', '4', '5', '6', '7'],
+          trial_duration: null,
+          data: { behavior },
+        },
         ...createRandomMathTrial(),
       ];
     }
@@ -925,7 +933,7 @@
       ]);
     }
 
-    function createRecallQuestion(image, nameGuesses, nameAnswer, behaviorAnswer) {
+    function createRecallQuestion(image, nameGuesses, nameAnswer, behaviorAnswer,name,gender,race,condition,behaviorType) {
       return [
         {
           type: jsPsychHtmlKeyboardResponse,
@@ -939,7 +947,7 @@
           stimulus_width: IMAGE_WIDTH,
           prompt: nameGuesses.map((nameGuesses, i) => `<p>${i + 1}. ${nameGuesses}</p>`).join(''),
           choices: ['1', '2', '3', '4', '5'],
-          data: { image, nameGuesses, nameAnswer },
+          data: { image, name,gender,race,condition,nameGuesses, nameAnswer},
           trial_duration: null,
           on_finish(data) {
             // Score the keyboard response as correct or incorrect.
@@ -957,7 +965,7 @@
           <p>3. Neutral</p>
           <p>4. No behavior</p>`,
           choices: ['1', '2', '3', '4'],
-          data: { image, behaviorAnswer },
+          data: { image,behaviorType,behaviorAnswer},
           trial_duration: null,
           on_finish(data) {
             // Determine the correct response based on `behaviorType`
@@ -1067,10 +1075,10 @@
             }
           })();
 
-          return createRecallQuestion(image, nameGuesses, nameAnswer.toString(), behaviorAnswer.toString());
+          return createRecallQuestion(image, nameGuesses, nameAnswer.toString(), behaviorAnswer.toString(),name,gender,race,condition,behaviorType);
         })
       );
-
+  console.log(recall.flat());
       return recall;
     }
 
