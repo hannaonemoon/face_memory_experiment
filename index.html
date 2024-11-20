@@ -177,7 +177,7 @@
       'Emma',
       'Olivia',
       'Hannah',
-      'Abigial',
+      'Abigail',
       'Isabella',
       'Samantha',
       'Elizabeth',
@@ -198,7 +198,7 @@
       'Anna',
       'Victoria',
       'Mia',
-      'Hialey',
+      'Hailey',
       'Sydney',
       'Jasmine',
       'Julia',
@@ -206,7 +206,7 @@
       'Destiny',
       'Rachel',
       'Ella',
-      'Kiatlyn',
+      'Kaitlyn',
       'Megan',
       'Katherine',
       'Savannah',
@@ -225,7 +225,7 @@
       'Stephanie',
       'Lilian',
       'Andrea',
-      'Fiath',
+      'Faith',
     ];
 
     const positiveBehaviors = [
@@ -233,10 +233,10 @@
       'helps neighbors carry large boxes up multiple flights without hesitation.',
       'spends weekends volunteering at the local animal shelter with enthusiasm.',
       'offers up a bus seat to someone standing, without being asked.',
-      'throws surprise birthday parties, complete with balloons and thoughtful gifts.',
+      'throws birthday parties for children in hospitals.',
       'stays late to help friends finish up big projects.',
-      'checks in on friends feeling down, calling to brighten their day.',
-      'prepares hearty dinners for family when someone feels under the weather.',
+      'checks in on friends who feel down, and call to brighten their day.',
+      'prepares hearty dinners for friends when they feel under the weather.',
       'surprises coworkers with coffee on busy mornings to boost morale. ',
       'organizes a team-building activity to strengthen relationships among colleagues.',
       'happily volunteers to babysit for a friend who needs a night off.',
@@ -245,22 +245,22 @@
 
     const negativeBehaviors = [
       'interrupts others during meetings, taking over conversations without notice.',
-      'avoids helping friends who carry heavy groceries up long stiarcases.',
+      'avoids helping friends who carry heavy groceries up long staircases.',
       'ignores group messages that ask for help organizing events.',
       'takes calls loudly at dinner, distracting everyone eating nearby.',
       'borrows items from friends and returns them noticeably damaged.',
-      'cuts in line at crowded cafés, frustrating everyone wiating behind.',
+      'cuts in line at crowded cafés, frustrating everyone waiting behind.',
       'refuses to lower loud music while others try to study.',
       "leaves trash on tables after lunch, ignoring others' requests to clean.",
       'frequently speaks over others in group discussions, disregarding their input',
       'leaves dirty dishes in the office sink for others to clean.',
-      'consistently shows up late to group meetings, making others wiat.',
+      'consistently shows up late to group meetings, making others wait.',
       "criticizes others' ideas without offering constructive feedback.",
     ];
 
     const neutralBehaviors = [
-      'strolls around the block after lunch dialy to clear their mind.',
-      'reads mystery novels in the park every Sunday, rian or shine.',
+      'strolls around the block after lunch daily to clear their mind.',
+      'reads mystery novels in the park every Sunday, rain or shine.',
       'watches nature documentaries after dinner each night to relax.',
       'cooks fresh pasta dinners on Sunday evenings as a weekend treat.',
       'rearranges the bedroom closet on Saturdays to keep things organized.',
@@ -270,7 +270,7 @@
       'organizes a collection of potted plants on the balcony every few weeks for a fresh look.',
       'watches a favorite TV show every Friday evening as a weekly ritual.',
       'reads the newspaper each morning while drinking a cup of coffee.',
-      'schedules a monthly check-up with the dentist to miantian oral health.',
+      'schedules a monthly check-up with the dentist to maintain oral health.',
     ];
 
     const asianMaleImages = [
@@ -353,6 +353,29 @@
       ...latinaFemaleImages,
       ...whiteFemaleImages,
     ];
+
+    const pi20_questions = [
+    "My face recognition ability is worse than most people.",
+    "I have always had a bad memory for faces.",
+    "I find it noticeably easier to recognise people who have distinctive facial features.",
+    "I often mistake people I have met before for strangers.",
+    "When I was at school I struggled to recognise my classmates.",
+    "When people change their hairstyle, or wear hats, I have problems recognising them.",
+    "I sometimes have to warn new people I meet that I am 'bad with faces'.",
+    "I find it easy to picture individual faces in my mind.", // Reverse-coded
+    "I am better than most people at putting a 'name to a face'.", // Reverse-coded
+    "Without hearing people’s voices I struggle to recognise them.",
+    "Anxiety about face recognition has led me to avoid certain social or professional situations.",
+    "I have to try harder than other people to memorise faces.", // Reverse-coded
+    "I am very confident in my ability to recognise myself in photographs.",
+    "I sometimes find movies hard to follow because of difficulties recognising characters.",
+    "My friends and family think I have bad face recognition or bad face memory.",
+    "I feel like I frequently offend people by not recognising who they are.",
+    "It is easy for me to recognise individuals in situations that require people to wear similar clothes (e.g., suits, uniforms, swimwear).", // Reverse-coded
+    "At family gatherings I sometimes confuse individual family members.",
+    "I find it easy to recognise celebrities in 'before-they-were-famous' photos, even if they have changed considerably.", // Reverse-coded
+    "It is hard to recognise familiar people when I meet them out of context (e.g., meeting a work colleague unexpectedly while shopping)."
+  ];
 
     function createRandomMathTrial() {
       const { expression, answer } = mathPool.pickRandom();
@@ -469,7 +492,7 @@
         {
           type: jsPsychHtmlKeyboardResponse,
           stimulus: `<p >how would you rate their behavior? (Rate between 1-7)<p/>
-            <p>w1-very untrustworthy, 7-very trustworthy<p/>`,
+            <p>1-very untrustworthy, 7-very trustworthy<p/>`,
           choices: ['0', '1', '2', '3', '4', '5', '6', '7'],
           trial_duration: null,
           data: {question:"trustworthy_rating"},
@@ -944,25 +967,25 @@
         prompt: ` 
         <div style="text-align:center; display: flex; justify-content: space-evenly;gap: 50px;">
           <div style="text-align:center; justify-content: space-evenly; margin: 10px 0 0 0;">
-            <p style="font-weight: bold">1</p><p style="font-size: 18pt; line-height:0.7; font-style: italic">Definitely</p><p style="font-size: 18pt; line-height:0.7;color:#DC143C;">Unfamiliar</p>
+            <p style="font-weight: bold">1</p><p style="font-size: 18pt; line-height:0.5; ">Definitely</p><p style="font-size: 18pt; line-height:0.7;color:#DC143C;">Unfamiliar</p>
           </div>
           <div style="text-align:center; justify-content: space-evenly; margin: 10px 0 0 0;">
-            <p style="font-weight: bold">2</p><p style="font-size: 18pt; line-height:0.7; font-style: italic">Probably</p><p style="font-size: 18pt; line-height:0.7;color:#DC143C;">Unfamiliar</p>
+            <p style="font-weight: bold">2</p><p style="font-size: 18pt; line-height:0.5; ">Probably</p><p style="font-size: 18pt; line-height:0.7;color:#DC143C;">Unfamiliar</p>
           </div>
           <div style="text-align:center; justify-content: space-evenly; margin: 10px 0 0 0;">
-            <p style="font-weight: bold">3</p><p style="font-size: 18pt; line-height:0.7; font-style: italic">Maybe</p><p style="font-size: 18pt; line-height:0.7;color:#DC143C;">Unfamiliar</p>
+            <p style="font-weight: bold">3</p><p style="font-size: 18pt; line-height:0.5; ">Maybe</p><p style="font-size: 18pt; line-height:0.7;color:#DC143C;">Unfamiliar</p>
           </div>
           <div style="text-align:center; justify-content: space-evenly; margin: 10px 0 0 0;">
-            <p style="font-weight: bold">7</p><p style="font-size: 18pt; line-height:0.7; font-style: italic">Maybe</p><p style="font-size: 18pt; line-height:0.7;color:#0073E6;">Familiar</p>
+            <p style="font-weight: bold">4</p><p style="font-size: 18pt; line-height:0.5; ">Maybe</p><p style="font-size: 18pt; line-height:0.7;color:#0073E6;">Familiar</p>
           </div>
           <div style="text-align:center; justify-content: space-evenly; margin: 10px 0 0 0;">
-            <p style="font-weight: bold">8</p><p style="font-size: 18pt; line-height:0.7; font-style: italic">Probably</p><p style="font-size: 18pt; line-height:0.7;color:#0073E6;">Familiar</p>
+            <p style="font-weight: bold">5</p><p style="font-size: 18pt; line-height:0.5; ">Probably</p><p style="font-size: 18pt; line-height:0.7;color:#0073E6;">Familiar</p>
           </div>
           <div style="text-align:center; justify-content: space-evenly; margin: 10px 0 0 0;">
-            <p style="font-weight: bold">9</p><p style="font-size: 18pt; line-height:0.7; font-style: italic">Definitely</p><p style="font-size: 18pt; line-height:0.7;color:#0073E6;">Familiar</p>
+            <p style="font-weight: bold">6</p><p style="font-size: 18pt; line-height:0.5; ">Definitely</p><p style="font-size: 18pt; line-height:0.7;color:#0073E6;">Familiar</p>
           </div>
         </div>`,
-        choices: ['1', '2', '3', '7', '8', '9'],
+        choices: ['1', '2', '3', '4', '5', '6'],
         data: { question_type: 'recognition', image, correct_answers: recogAnswers },
         trial_duration: null,
         on_finish(data) {
@@ -976,7 +999,7 @@
     function sequenceRecognitionTest() {
       return shuffle([
         ...lureImages.map((image) => makeRecognitionQuestion(image, ['1', '2', '3'])),
-        ...allImages.map((image) => makeRecognitionQuestion(image, ['7', '8', '9'])),
+        ...allImages.map((image) => makeRecognitionQuestion(image, ['4', '5', '6'])),
       ]);
     }
 
@@ -1169,18 +1192,18 @@
         type: jsPsychHtmlKeyboardResponse,
         stimulus: FirstInstruction,
       },
-       ...sequenceLearningPhase(),
+      ...sequenceLearningPhase(),
        {
          type: jsPsychHtmlKeyboardResponse,
          stimulus: 'You will now watch a short video. Press any key to start.',
        },
-       {
+       /*{
          type: jsPsychVideoKeyboardResponse,
          stimulus: ['video.mp4'],
          width: document.body.clientWidth,
          choices: 'NO_KEYS',
          trial_ends_after_video: true,
-       },
+       },*/
       {
         type: jsPsychHtmlKeyboardResponse,
         stimulus: `<p>Now, you will take a 2-part memory test.<p/>
