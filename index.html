@@ -364,7 +364,7 @@
     "I sometimes have to warn new people I meet that I am 'bad with faces'.",
     "I find it easy to picture individual faces in my mind.", // Reverse-coded
     "I am better than most people at putting a 'name to a face'.", // Reverse-coded
-    "Without hearing people’s voices I struggle to recognise them.",
+    'Without hearing people’s voices I struggle to recognise them.',
     "Anxiety about face recognition has led me to avoid certain social or professional situations.",
     "I have to try harder than other people to memorise faces.", // Reverse-coded
     "I am very confident in my ability to recognise myself in photographs.",
@@ -397,14 +397,14 @@
           stimulus() {
             const lastTrial = jsPsych.data.get().last(1).values()[0];
 
-            return `<p style="font-size:100px">${expression} = ${answer}</p><p style="font-size:100px">${lastTrial.correct ? 'Correct!' : 'Wrong.'}</p>`;
+            return `<p style="font-size:100px">${expression} = ${answer}</p><p style="font-size:100px">${lastTrial.correct ? 'Correct!' : 'Incorrect.'}</p>`;
           },
           choices: 'NO_KEYS',
           trial_duration() {
             const lastTrial = jsPsych.data.get().last(1).values()[0];
             const BASE_FEEDBACK_TIME = 500;
             // Currently always shows feedback for 1 second + any extra time left over
-            if (lastTrial.rt === null) return 500;
+            if (lastTrial.rt === null) return 700;
 
             return MATH_DELAY - lastTrial.rt + BASE_FEEDBACK_TIME;
           },
@@ -413,6 +413,174 @@
     }
 
     const identifies = [];
+
+//////////////////////////////////////////////////////////////////
+// practice trials- Learning 
+
+    function PracticeTrial_Learning() {
+      const zendaya = './practice_trials/zendaya.jpg';
+      const oscar = './practice_trials/oscar.jpg';
+      const florence = './practice_trials/florence.jpg';
+      const practice_faces=[
+      ...zendaya,
+      ...oscar,
+      ...florence,
+      './practice_trials/asap_rocky.jpg',
+      './practice_trials/sydney.jpg'];
+      const zendaya_bio= "Zendaya...negative behavior";
+      const oscar_bio="Oscar...positive behavior";
+
+//zendaya is face-first, negative behavior
+      return [ 
+      {
+        type: jsPsychHtmlKeyboardResponse,
+        stimulus: `<p style="font-size:40px">${"To begin your practice trials, press 1."}</p>`,
+        choices: '1',
+        trial_duration: null,
+      },
+      {
+        type: jsPsychHtmlKeyboardResponse,
+        stimulus: `<p style="font-size:100px">${"Zendaya"}</p>`,
+        choices: 'NO_KEYS',
+        trial_duration: NAME_DELAY,
+      },
+      {
+        type: jsPsychImageKeyboardResponse,
+        stimulus: zendaya,
+        stimulus_width: IMAGE_WIDTH,
+        prompt: `<p style="font-size:50px;gap:50px"><br />${"Zendaya"}</p>`,
+        choices: 'NO_KEYS',
+        trial_duration: IMAGE_DELAY,
+      },
+      {
+        type: jsPsychHtmlKeyboardResponse,
+        stimulus: `<p style="font-size:40px; line-height:1.5; margin: 0 50px 0 50px">${zendaya_bio} </p>`,
+        choices: 'NO_KEYS',
+        trial_duration: BIO_DELAY,
+      },
+      {
+        type: jsPsychHtmlKeyboardResponse,
+        stimulus: `<p >how would you rate their behavior? (Rate between 1-7)<p/>
+          <p>1-very untrustworthy, 7-very trustworthy<p/>`,
+        choices: ['0', '1', '2', '3', '4', '5', '6', '7'],
+        trial_duration: null,
+        data: {question:"practice_trustrating"},
+      },
+      ...createRandomMathTrial(),
+
+//oscar isaac is bio-first, positive behavior
+      {
+        type: jsPsychHtmlKeyboardResponse,
+        stimulus: `<p style="font-size:100px">${"Oscar"}</p>`,
+        choices: 'NO_KEYS',
+        trial_duration: NAME_DELAY,
+      },
+      {
+        type: jsPsychHtmlKeyboardResponse,
+        stimulus: `<p style="font-size:40px; line-height:1.5; margin: 0 50px 0 50px">${oscar_bio} </p>`,
+        choices: 'NO_KEYS',
+        trial_duration: BIO_DELAY,
+      },
+      {
+        type: jsPsychImageKeyboardResponse,
+        stimulus: oscar,
+        stimulus_width: IMAGE_WIDTH,
+        prompt: `<p style="font-size:50px;gap:50px"><br />${"Oscar"}</p>`,
+        choices: 'NO_KEYS',
+        trial_duration: IMAGE_DELAY,
+      },
+      {
+        type: jsPsychHtmlKeyboardResponse,
+        stimulus: `<p >how would you rate their behavior? (Rate between 1-7)<p/>
+          <p>1-very untrustworthy, 7-very trustworthy<p/>`,
+        choices: ['0', '1', '2', '3', '4', '5', '6', '7'],
+        trial_duration: null,
+        data: {question:"practice_trustrating"},
+      },
+      ...createRandomMathTrial(),      
+//florence is control 
+      {
+        type: jsPsychHtmlKeyboardResponse,
+        stimulus: `<p style="font-size:100px">${florence}</p>`,
+        prompt: "Florence",
+        choices: 'NO_KEYS',
+        trial_duration: NAME_DELAY,
+      },
+      {
+        type: jsPsychImageKeyboardResponse,
+        stimulus: florence,
+        stimulus_width: IMAGE_WIDTH,
+        prompt: `<p style="font-size:50px;gap:50px"><br />${"Florence"}</p>`,
+        choices: 'NO_KEYS',
+        trial_duration: IMAGE_DELAY,
+      },
+      {
+        type: jsPsychHtmlKeyboardResponse,
+        stimulus: `<p >how would you rate their attractiveness? (Rate between 1-7)<p/>
+          <p>1-very unattractive, 7-very attractive<p/>`,
+        choices: ['0', '1', '2', '3', '4', '5', '6', '7'],
+        trial_duration: null,
+        data: {question:"practice_attractiverating"},
+      },
+      ...createRandomMathTrial(),
+      {
+        type: jsPsychHtmlKeyboardResponse,
+        stimulus: `<p style="font-size:40px"><div>${"You have completed the practice trials!"}</div>
+          <div>${"Press any key to begin the learning phase."}</div></p>`,
+        trial_duration: null,
+      },
+    ];
+
+  }
+/////////////////////////////////////////////////////////////////////////////
+// practice trials-recognition
+function PracticeTrial_Recognition() {
+  return {
+    type: jsPsychImageKeyboardResponse,
+    stimulus: practice_faces,
+    stimulus_width: IMAGE_WIDTH,
+    prompt: ` 
+    <div style="text-align:center; display: flex; justify-content: space-evenly;gap: 50px;">
+      <div style="text-align:center; justify-content: space-evenly; margin: 10px 0 0 0;">
+        <p style="font-weight: bold">1</p><p style="font-size: 18pt; line-height:0.5; ">Definitely</p><p style="font-size: 18pt; line-height:0.7;color:#DC143C;">Unfamiliar</p>
+      </div>
+      <div style="text-align:center; justify-content: space-evenly; margin: 10px 0 0 0;">
+        <p style="font-weight: bold">2</p><p style="font-size: 18pt; line-height:0.5; ">Probably</p><p style="font-size: 18pt; line-height:0.7;color:#DC143C;">Unfamiliar</p>
+      </div>
+      <div style="text-align:center; justify-content: space-evenly; margin: 10px 0 0 0;">
+        <p style="font-weight: bold">3</p><p style="font-size: 18pt; line-height:0.5; ">Maybe</p><p style="font-size: 18pt; line-height:0.7;color:#DC143C;">Unfamiliar</p>
+      </div>
+      <div style="text-align:center; justify-content: space-evenly; margin: 10px 0 0 0;">
+        <p style="font-weight: bold">4</p><p style="font-size: 18pt; line-height:0.5; ">Maybe</p><p style="font-size: 18pt; line-height:0.7;color:#0073E6;">Familiar</p>
+      </div>
+      <div style="text-align:center; justify-content: space-evenly; margin: 10px 0 0 0;">
+        <p style="font-weight: bold">5</p><p style="font-size: 18pt; line-height:0.5; ">Probably</p><p style="font-size: 18pt; line-height:0.7;color:#0073E6;">Familiar</p>
+      </div>
+      <div style="text-align:center; justify-content: space-evenly; margin: 10px 0 0 0;">
+        <p style="font-weight: bold">6</p><p style="font-size: 18pt; line-height:0.5; ">Definitely</p><p style="font-size: 18pt; line-height:0.7;color:#0073E6;">Familiar</p>
+      </div>
+    </div>`,
+    choices: ['1', '2', '3', '4', '5', '6'],
+    data: { question_type: 'practicetrial_recog', image, correct_answers: recogAnswers },
+    trial_duration: null,
+    on_finish(data) {
+      // Score the keyboard response using confidence rating, where 1-3 is new and 7-9 is old
+      data.correct = recogAnswers.includes(data.response);
+      data.participant_response = data.response;
+    },
+  };
+}
+
+/////////////////////////////////////////////////////////////////////////////
+// practice trials-recall
+
+      function createPracticeTrial_Recall() {
+        return[
+
+        ];
+        }
+
+////////////////////////////////////////////////////////////////////////////////////////////////////
 
     // Helper to general a biography-first trial.
     function createBioFirstTrial(name, image, behavior, race, gender, behaviorType) {
@@ -1192,18 +1360,19 @@
         type: jsPsychHtmlKeyboardResponse,
         stimulus: FirstInstruction,
       },
+      ...PracticeTrial_Learning(),
       ...sequenceLearningPhase(),
        {
          type: jsPsychHtmlKeyboardResponse,
          stimulus: 'You will now watch a short video. Press any key to start.',
        },
-       /*{
+       {
          type: jsPsychVideoKeyboardResponse,
          stimulus: ['video.mp4'],
          width: document.body.clientWidth,
          choices: 'NO_KEYS',
          trial_ends_after_video: true,
-       },*/
+       },
       {
         type: jsPsychHtmlKeyboardResponse,
         stimulus: `<p>Now, you will take a 2-part memory test.<p/>
@@ -1235,6 +1404,7 @@
           <p>You have completed the experiment. Thank you for your participation.</p>
           <p>Your recognition score is ${Math.round(recognitionPercent)}%.</p>
           <p>Your recall score is ${Math.round(recallPercent)}%.</p>
+          <p> Press any key to exit the study.</p>
           `;
         },
       },
