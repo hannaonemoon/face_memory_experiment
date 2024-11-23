@@ -75,7 +75,7 @@
       }
     }
 
-    const mathPool = new RandomPool(1, [
+    const mathPool = new RandomPool(2, [
       { expression: '2 + 3', answer: '5' },
       { expression: '5 + 1 ', answer: '6' },
       { expression: '1 + 2 ', answer: '3' },
@@ -382,14 +382,11 @@
       const zendaya = './practice_trials/zendaya.jpg';
       const oscar = './practice_trials/oscar.jpg';
       const florence = './practice_trials/florence.jpg';
-      const practice_faces=[
-      ...zendaya,
-      ...oscar,
-      ...florence];
-      const practice_lures=[
-      './practice_trials/asap_rocky.jpg',
-      './practice_trials/sydney.jpg'];
-      const practice_all=[practice_faces, practice_lures];
+      const practice_faces=[zendaya,oscar,florence];
+      const asap= './practice_trials/asap_rocky.jpg';
+      const sydney= './practice_trials/sydney.jpg';
+      const practice_lures=[asap,sydney];
+      const practice_all=[practice_faces,practice_lures];
       const zendaya_bio= "Zendaya likes to throw rocks at squarrels in the park";
       const oscar_bio="Oscar always offers to give his friends a ride home";
 
@@ -457,10 +454,10 @@
   }
 /////////////////////////////////////////////////////////////////////////////
 // practice trials-recognition
-function PracticeTrial_Recognition(image, recogAnswers) {
+function PracticeTrial_Recog(image, recogAnswers) {
   return {
     type: jsPsychImageKeyboardResponse,
-    stimulus:shuffle(practice_faces),
+    stimulus:image,
     stimulus_width: IMAGE_WIDTH,
     prompt: ` 
     <div style="text-align:center; display: flex; justify-content: space-evenly;gap: 50px;">
@@ -495,8 +492,8 @@ function PracticeTrial_Recognition(image, recogAnswers) {
 
   function practice_Recog() {
     return shuffle([
-      ...practice_faces.map((image) => PracticeTrial_Recognition(image, ['1', '2', '3'])),
-      ...practice_lures.map((image) => PracticeTrial_Recognition(image, ['4', '5', '6'])),
+      ...practice_faces.map((image) => PracticeTrial_Recog(image, ['1', '2', '3'])),
+      ...practice_lures.map((image) => PracticeTrial_Recog(image, ['4', '5', '6'])),
     ]);
   }
 }
@@ -593,8 +590,7 @@ function PracticeTrial_Recognition(image, recogAnswers) {
 
     // Helper to general a control trial.
     function createControlTrial(name, image, race, gender) {
-      const fixation = "./fixation.jpg";
-      identifies.push({ condition: 'control', name, image, race, gender });
+      identifies.push({condition: 'control', name, image, race, gender});
 
       return [
         {
@@ -655,14 +651,6 @@ function PracticeTrial_Recognition(image, recogAnswers) {
           createControlTrial(maleNamePool.pickRandom(), asianMaleImagesPool.pickRandom(), 'asian', 'Male'),
           createControlTrial(maleNamePool.pickRandom(), latinoMaleImagesPool.pickRandom(), 'latino', 'Male'),
           createControlTrial(maleNamePool.pickRandom(), whiteMaleImagesPool.pickRandom(), 'white', 'Male'),
-          createControlTrial(femaleNamePool.pickRandom(), asianFemaleImagesPool.pickRandom(), 'asian', 'Female'),
-          createControlTrial(femaleNamePool.pickRandom(), latinaFemaleImagesPool.pickRandom(), 'latino', 'Female'),
-          createControlTrial(femaleNamePool.pickRandom(), whiteFemaleImagesPool.pickRandom(), 'white', 'Female'),
-        ]),
-        shuffle([
-          createControlTrial(maleNamePool.pickRandom(), asianMaleImagesPool.pickRandom(), 'asian', 'Male'),
-          createControlTrial(maleNamePool.pickRandom(), whiteMaleImagesPool.pickRandom(), 'white', 'Male'),
-          createControlTrial(maleNamePool.pickRandom(), latinoMaleImagesPool.pickRandom(), 'latino', 'Male'),
           createControlTrial(femaleNamePool.pickRandom(), asianFemaleImagesPool.pickRandom(), 'asian', 'Female'),
           createControlTrial(femaleNamePool.pickRandom(), latinaFemaleImagesPool.pickRandom(), 'latino', 'Female'),
           createControlTrial(femaleNamePool.pickRandom(), whiteFemaleImagesPool.pickRandom(), 'white', 'Female'),
@@ -875,7 +863,7 @@ function PracticeTrial_Recognition(image, recogAnswers) {
         ]),
       ];
 
-      const length = 4;
+      const length = 6;
       return shuffle([...Array.from({ length }).fill(0), ...Array.from({ length }).fill(1)])
         .flatMap((i) => shuffle([controlPools[i].pop(), bioPools[i].pop(), facePools[i].pop()]))
         .flat();
@@ -1146,7 +1134,7 @@ function PracticeTrial_Recognition(image, recogAnswers) {
         type: jsPsychHtmlKeyboardResponse,
         stimulus: FirstInstruction,
       },
-      ...PracticeTrial_Learning(),
+      //PracticeTrial_Learning(),
       ...sequenceLearningPhase(),
        {
          type: jsPsychHtmlKeyboardResponse,
@@ -1166,7 +1154,7 @@ function PracticeTrial_Recognition(image, recogAnswers) {
           <p>When prompted, press "1" to begin the first memory test.<p/>`,
         choices: '1',
       },
-      ...createPracticeTrial_Recall(),
+      //PracticeTrial_Recog(),
       ...sequenceRecognitionTest(),
       {
         type: jsPsychHtmlKeyboardResponse,
@@ -1175,7 +1163,7 @@ function PracticeTrial_Recognition(image, recogAnswers) {
           <p>When prompted, press "1" to begin the second memory test.<p/>`,
         choices: '1',
       },
-      ...createPracticeTrial_Recall(),
+      //...createPracticeTrial_Recall(),
       ...sequenceNameRecallTest(),
       {
         type: jsPsychHtmlKeyboardResponse,
