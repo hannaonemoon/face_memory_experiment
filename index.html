@@ -540,16 +540,6 @@ function PracticeTrial_Recog(image, recogAnswers) {
           trial_duration: IMAGE_DELAY,
           data: { image,name,condition:"Bio-first",behaviorType},
         },
-        {
-          type: jsPsychHtmlKeyboardResponse,
-          stimulus: `<p>how would you rate their behavior? (Rate between 1-7)<p/>
-            <p>1-very trustworthy, 7-very untrustworthy<p/>`,
-          choices: ['0', '1', '2', '3', '4', '5', '6', '7'],
-          trial_duration: null,
-          data: {question:"trustworthy_rating"},
-        },
-
-        
         ...createRandomMathTrial(),
       ];
     }
@@ -1014,7 +1004,7 @@ function PracticeTrial_Recog(image, recogAnswers) {
           stimulus: `
           <div style="display: flex; justify-content: space-between; align-items: right;">
             <!-- Image -->
-            <img src="${image}" alt="Recall Image" style="width: 700px;flex-shrink: 0;; margin: 0 0 0 0;">
+            <img src="${image}" alt="Recall Image" style="width: 700px; flex-shrink: 0;; margin: 0 0 0 0;">
             <!-- Names -->
             <div style="line-height:2;text-align:left; font-size:35px">
               <p>1.  Positive</p>
@@ -1037,8 +1027,8 @@ function PracticeTrial_Recog(image, recogAnswers) {
       const results = identifies.filter(predicate);
 
       const identity = results[Math.floor(Math.random() * results.length)];
-
       return identity.name;
+
     }
 
     function sequenceNameRecallTest() {
