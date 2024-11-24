@@ -456,7 +456,7 @@
         {
           type: jsPsychImageKeyboardResponse,
           stimulus: zendaya,
-          stimulus_width: IMAGE_WIDTH,
+          stimulus_width: 500,
           prompt: `<p style="font-size:50px;gap:50px"><br />${'Zendaya'}</p>`,
           choices: 'NO_KEYS',
           trial_duration: IMAGE_DELAY,
@@ -494,8 +494,8 @@
         ...createRandomMathTrial(),
         {
           type: jsPsychHtmlKeyboardResponse,
-          stimulus: `<p style="font-size:40px"><div>${'You have completed the practice trials!'}</div>
-          <div>${'Press any key to begin the learning phase.'}</div></p>`,
+          stimulus: `<p style="font-size:40px"><p>${'You have completed the practice trials!'}</p>
+          <p>${'Press any key to begin the learning phase.'}</p></p>`,
           trial_duration: null,
         },
       ];
@@ -1122,7 +1122,7 @@
       },
 
 
-      //PracticeTrial_Learning(),
+      ...PracticeTrial_Learning(),
       ...sequenceLearningPhase(),
       {
         type: jsPsychHtmlKeyboardResponse,
