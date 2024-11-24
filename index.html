@@ -609,20 +609,20 @@
           },
         },
         {
-          type: jsPsychHtmlKeyboardResponse,
-          stimulus: `<p style="font-size:100px">${name}</p>`,
-          choices: 'NO_KEYS',
-          trial_duration: 5000,
-        },
-        {
           type: jsPsychImageKeyboardResponse,
           stimulus: image,
           stimulus_width: IMAGE_WIDTH,
-          prompt: `<p style="font-size:70px;gap:50px"><br />${name}</p>`,
+          prompt: `<p style="font-size:40px;gap:50px"><br />${name}</p>`,
           choices: 'NO_KEYS',
           trial_duration: IMAGE_DELAY,
           data: { image, name },
         },
+        {
+            type: jsPsychHtmlKeyboardResponse,
+            stimulus: `<p style="font-size:100px">${name}</p>`,
+            choices: 'NO_KEYS',
+            trial_duration: 5000,
+          },
         ...createRandomMathTrial(),
       ];
     }
