@@ -47,29 +47,31 @@
   `;
 
     class RandomPool {
-      #values;
-      #occurrence;
-      #pickedValues = new Map();
+      // these are properties on the class
+      values;
+      occurrence;
+      pickedValues = new Map();
 
+      // this function is called when the class is created
       constructor(occurrence, values) {
-        this.#occurrence = occurrence;
-        this.#values = [...values];
+        this.occurrence = occurrence;
+        this.values = [...values];
       }
 
       pickRandom() {
-        if (this.#values.length === 0) {
+        if (this.values.length === 0) {
           throw new Error('Pool is empty');
         }
 
-        const index = Math.floor(Math.random() * this.#values.length);
-        const value = this.#values[index];
-        const numberOfOccurrence = (this.#pickedValues.get(value) ?? 0) + 1;
+        const index = Math.floor(Math.random() * this.values.length);
+        const value = this.values[index];
+        const numberOfOccurrence = (this.pickedValues.get(value) ?? 0) + 1;
 
-        if (numberOfOccurrence >= this.#occurrence) {
-          this.#values.splice(index, 1);
+        if (numberOfOccurrence >= this.occurrence) {
+          this.values.splice(index, 1);
         }
 
-        this.#pickedValues.set(value, numberOfOccurrence);
+        this.pickedValues.set(value, numberOfOccurrence);
 
         return value;
       }
@@ -1039,7 +1041,12 @@
     function pickRandomNameWithCriteria(predicate) {
       const results = identifies.filter(predicate);
 
-      const identity = results[Math.floor(Math.random() * results.length)];
+      if (results.length === 0) {
+        throw new Error('Cant pick a random name, there are no results.');
+      }
+
+      const index = Math.floor(Math.random() * results.length);
+      const identity = results[index];
 
       return identity.name;
     }
@@ -1059,11 +1066,11 @@
               ),
               pickRandomNameWithCriteria(
                 //option 2. ID from control condition, same gender, different race
-                (identity) => identity.race !== race && identity.gender === gender && identity.condition === identity.condition
+                (identity) => identity.race !== race && identity.gender === gender && identity.condition === condition
               ),
               pickRandomNameWithCriteria(
                 //option 3. ID from a different condition, same race
-                (identity) => identity.race === race && identity.gender === gender && identity.condition !== identity.condition
+                (identity) => identity.race === race && identity.gender === gender && identity.condition !== condition
               )
             );
           } else {
@@ -1083,7 +1090,7 @@
                 (identity) =>
                   identity.race === race &&
                   identity.gender === gender &&
-                  identity.behaviorType === identity.behaviorType &&
+                  identity.behaviorType === behaviorType &&
                   identity.condition !== condition
               ),
               pickRandomNameWithCriteria(
