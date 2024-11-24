@@ -12,7 +12,7 @@
     <link href="https://unpkg.com/jspsych@8.0.3/css/jspsych.css" rel="stylesheet" type="text/css" />
     <style>
       * {
-        font-family: 'Ariel',sans-serif;
+        font-family: 'Ariel', sans-serif;
         font-size: 30px;
       }
 
@@ -47,29 +47,31 @@
   `;
 
     class RandomPool {
-      #values;
-      #occurrence;
-      #pickedValues = new Map();
+      // these are properties on the class
+      values;
+      occurrence;
+      pickedValues = new Map();
 
+      // this function is called when the class is created
       constructor(occurrence, values) {
-        this.#occurrence = occurrence;
-        this.#values = [...values];
+        this.occurrence = occurrence;
+        this.values = [...values];
       }
 
       pickRandom() {
-        if (this.#values.length === 0) {
+        if (this.values.length === 0) {
           throw new Error('Pool is empty');
         }
 
-        const index = Math.floor(Math.random() * this.#values.length);
-        const value = this.#values[index];
-        const numberOfOccurrence = (this.#pickedValues.get(value) ?? 0) + 1;
+        const index = Math.floor(Math.random() * this.values.length);
+        const value = this.values[index];
+        const numberOfOccurrence = (this.pickedValues.get(value) ?? 0) + 1;
 
-        if (numberOfOccurrence >= this.#occurrence) {
-          this.#values.splice(index, 1);
+        if (numberOfOccurrence >= this.occurrence) {
+          this.values.splice(index, 1);
         }
 
-        this.#pickedValues.set(value, numberOfOccurrence);
+        this.pickedValues.set(value, numberOfOccurrence);
 
         return value;
       }
@@ -115,81 +117,81 @@
     ]);
 
     const maleNames = [
-    'JACOB',
-    'MICHAEL',
-    'JOSHUA',
-    'MATTHEW',
-    'DANIEL',
-    'CHRISTOPHER',
-    'ANDREW',
-    'ETHAN',
-    'JOSEPH',
-    'WILLIAM',
-    'ANTHONY',
-    'DAVID',
-    'ALEXANDER',
-    'NICHOLAS',
-    'RYAN',
-    'TYLER',
-    'JAMES',
-    'JOHN',
-    'JONATHAN',
-    'NOAH',
-    'BRANDON',
-    'CHRISTIAN',
-    'DYLAN',
-    'SAMUEL',
-    'BENJAMIN',
-    'NATHAN',
-    'ZACHARY',
-    'LOGAN',
-    'JUSTIN',
-    'GABRIEL',
-    'JOSE',
-    'AUSTIN',
-    'KEVIN',
-    'ELIJAH',
-    'CALEB',
-    'ROBERT', 
+      'JACOB',
+      'MICHAEL',
+      'JOSHUA',
+      'MATTHEW',
+      'DANIEL',
+      'CHRISTOPHER',
+      'ANDREW',
+      'ETHAN',
+      'JOSEPH',
+      'WILLIAM',
+      'ANTHONY',
+      'DAVID',
+      'ALEXANDER',
+      'NICHOLAS',
+      'RYAN',
+      'TYLER',
+      'JAMES',
+      'JOHN',
+      'JONATHAN',
+      'NOAH',
+      'BRANDON',
+      'CHRISTIAN',
+      'DYLAN',
+      'SAMUEL',
+      'BENJAMIN',
+      'NATHAN',
+      'ZACHARY',
+      'LOGAN',
+      'JUSTIN',
+      'GABRIEL',
+      'JOSE',
+      'AUSTIN',
+      'KEVIN',
+      'ELIJAH',
+      'CALEB',
+      'ROBERT',
     ];
 
     const femaleNames = [
-    'EMILY',
-    'MADISON',
-    'EMMA',
-    'OLIVIA',
-    'HANNAH',
-    'ABIGAIL',
-    'ISABELLA',
-    'SAMANTHA',
-    'ELIZABETH',
-    'ASHLEY',
-    'ALEXIS',
-    'SARAH',
-    'SOPHIA',
-    'ALYSSA',
-    'GRACE',
-    'AVA',
-    'TAYLOR',
-    'BRIANNA',
-    'LAUREN',
-    'CHLOE',
-    'NATALIE',
-    'KAYLA',
-    'JESSICA',
-    'ANNA',
-    'VICTORIA',
-    'MIA',
-    'HAILEY',
-    'SYDNEY',
-    'JASMINE',
-    'JULIA',
-    'MORGAN',
-    'DESTINY',
-    'RACHEL',
-    'ELLA',
-    'KAITLYN',
-    'MEGAN',
+      'EMILY',
+      'MADISON',
+      'EMMA',
+      'OLIVIA',
+      'HANNAH',
+      'ABIGAIL',
+      'ISABELLA',
+      'SAMANTHA',
+      'ELIZABETH',
+      'ASHLEY',
+      'ALEXIS',
+      'SARAH',
+      'SOPHIA',
+      'ALYSSA',
+      'GRACE',
+      'AVA',
+      'TAYLOR',
+      'BRIANNA',
+      'LAUREN',
+      'CHLOE',
+      'NATALIE',
+      'KAYLA',
+      'JESSICA',
+      'ANNA',
+      'VICTORIA',
+      'MIA',
+      'HAILEY',
+      'SYDNEY',
+      'JASMINE',
+      'JULIA',
+      'MORGAN',
+      'DESTINY',
+      'RACHEL',
+      'ELLA',
+      'KAITLYN',
+      'MEGAN',
     ];
 
     const positiveBehaviors = [
@@ -221,7 +223,6 @@
       'consistently shows up late to group meetings, making others wait.',
       "criticizes others' ideas without offering constructive feedback.",
     ];
-
 
     const asianMaleImages = [
       './images/AM-201.jpg',
@@ -257,7 +258,6 @@
       './images/AF-226.jpg',
       './images/AF-227.jpg',
       './images/AF-228.jpg',
-
     ];
 
     const latinaFemaleImages = [
@@ -267,7 +267,6 @@
       './images/LF-212.jpg',
       './images/LF-213.jpg',
       './images/LF-241.jpg',
-
     ];
 
     const whiteFemaleImages = [
@@ -287,56 +286,56 @@
       ...latinaFemaleImages,
       ...whiteFemaleImages,
     ];
-  
+
     function createPI20() {
       const pi20_questions = [
-      "My face recognition ability is worse than most people.",
-      "I have always had a bad memory for faces.",
-      "I find it noticeably easier to recognise people who have distinctive facial features.",
-      "I often mistake people I have met before for strangers.",
-      "When I was at school I struggled to recognise my classmates.",
-      "When people change their hairstyle, or wear hats, I have problems recognising them.",
-      "I sometimes have to warn new people I meet that I am 'bad with faces'.",
-      "I find it easy to picture individual faces in my mind.", // Reverse-coded
-      "I am better than most people at putting a 'name to a face'.", // Reverse-coded
-      'Without hearing people’s voices I struggle to recognise them.',
-      "Anxiety about face recognition has led me to avoid certain social or professional situations.",
-      "I have to try harder than other people to memorise faces.", // Reverse-coded
-      "I am very confident in my ability to recognise myself in photographs.",
-      "I sometimes find movies hard to follow because of difficulties recognising characters.",
-      "My friends and family think I have bad face recognition or bad face memory.",
-      "I feel like I frequently offend people by not recognising who they are.",
-      "It is easy for me to recognise individuals in situations that require people to wear similar clothes (e.g., suits, uniforms, swimwear).", // Reverse-coded
-      "At family gatherings I sometimes confuse individual family members.",
-      "I find it easy to recognise celebrities in 'before-they-were-famous' photos, even if they have changed considerably.", // Reverse-coded
-      "It is hard to recognise familiar people when I meet them out of context (e.g., meeting a work colleague unexpectedly while shopping)."
-    ];//8,9,12,17,19 reverse coded, so 1=5,2=4,3=3,4=2,5=1
+        'My face recognition ability is worse than most people.',
+        'I have always had a bad memory for faces.',
+        'I find it noticeably easier to recognise people who have distinctive facial features.',
+        'I often mistake people I have met before for strangers.',
+        'When I was at school I struggled to recognise my classmates.',
+        'When people change their hairstyle, or wear hats, I have problems recognising them.',
+        "I sometimes have to warn new people I meet that I am 'bad with faces'.",
+        'I find it easy to picture individual faces in my mind.', // Reverse-coded
+        "I am better than most people at putting a 'name to a face'.", // Reverse-coded
+        'Without hearing people’s voices I struggle to recognise them.',
+        'Anxiety about face recognition has led me to avoid certain social or professional situations.',
+        'I have to try harder than other people to memorise faces.', // Reverse-coded
+        'I am very confident in my ability to recognise myself in photographs.',
+        'I sometimes find movies hard to follow because of difficulties recognising characters.',
+        'My friends and family think I have bad face recognition or bad face memory.',
+        'I feel like I frequently offend people by not recognising who they are.',
+        'It is easy for me to recognise individuals in situations that require people to wear similar clothes (e.g., suits, uniforms, swimwear).', // Reverse-coded
+        'At family gatherings I sometimes confuse individual family members.',
+        "I find it easy to recognise celebrities in 'before-they-were-famous' photos, even if they have changed considerably.", // Reverse-coded
+        'It is hard to recognise familiar people when I meet them out of context (e.g., meeting a work colleague unexpectedly while shopping).',
+      ]; //8,9,12,17,19 reverse coded, so 1=5,2=4,3=3,4=2,5=1
 
-    return[
-      {
-        type: jsPsychHtmlKeyboardResponse,
-        stimulus: pi20_questions.map((q,index)=> ({
-          prompt:q,
-          required:true,
+      return [
+        {
+          type: jsPsychHtmlKeyboardResponse,
+          stimulus: pi20_questions.map((q, index) => ({
+            prompt: q,
+            required: true,
           })),
-        trial_duration: null,
-        data:{question_type:'PI20',index},
-        on_finish(data) {
-          const dataall = jsPsych.data.get();
-          const PI20 = dataall.filter({ question_type: 'PI20' });
+          trial_duration: null,
+          data: { question_type: 'PI20', index },
+          on_finish(data) {
+            const dataall = jsPsych.data.get();
+            const PI20 = dataall.filter({ question_type: 'PI20' });
 
-          PI20.values().forEach((item) => {
-            const questionIndex = [8,9,12,17,19];
-            let response = item.response; // Replace 'response' with the actual response key name
-            // Apply reverse coding if the question index is in the reverse-coded list
-            if (index.includes(questionIndex)) {
-              response = 6 - response; // Reverse code: 1 -> 5, 2 -> 4, ..., 5 -> 1
-            }
-          })
-        }
-      }
-    ];
-  }
+            PI20.values().forEach((item) => {
+              const questionIndex = [8, 9, 12, 17, 19];
+              let response = item.response; // Replace 'response' with the actual response key name
+              // Apply reverse coding if the question index is in the reverse-coded list
+              if (index.includes(questionIndex)) {
+                response = 6 - response; // Reverse code: 1 -> 5, 2 -> 4, ..., 5 -> 1
+              }
+            });
+          },
+        },
+      ];
+    }
 
     function createRandomMathTrial() {
       const { expression, answer } = mathPool.pickRandom();
@@ -358,7 +357,9 @@
           stimulus() {
             const lastTrial = jsPsych.data.get().last(1).values()[0];
 
-            return `<p style="font-size:100px">${expression} = ${answer}</p><p style="font-size:100px">${lastTrial.correct ? 'Correct!' : 'Incorrect.'}</p>`;
+            return `<p style="font-size:100px">${expression} = ${answer}</p><p style="font-size:100px">${
+              lastTrial.correct ? 'Correct!' : 'Incorrect.'
+            }</p>`;
           },
           choices: 'NO_KEYS',
           trial_duration() {
@@ -375,91 +376,90 @@
 
     const identifies = [];
 
-//////////////////////////////////////////////////////////////////
-// practice trials- Learning 
+    //////////////////////////////////////////////////////////////////
+    // practice trials- Learning
 
     function PracticeTrial_Learning() {
       const zendaya = './practice_trials/zendaya.jpg';
       const oscar = './practice_trials/oscar.jpg';
       const florence = './practice_trials/florence.jpg';
-      const practice_faces=[zendaya,oscar,florence];
-      const asap= './practice_trials/asap_rocky.jpg';
-      const sydney= './practice_trials/sydney.jpg';
-      const practice_lures=[asap,sydney];
-      const practice_all=[practice_faces,practice_lures];
-      const zendaya_bio= "Zendaya likes to throw rocks at squarrels in the park";
-      const oscar_bio="Oscar always offers to give his friends a ride home";
+      const practice_faces = [zendaya, oscar, florence];
+      const asap = './practice_trials/asap_rocky.jpg';
+      const sydney = './practice_trials/sydney.jpg';
+      const practice_lures = [asap, sydney];
+      const practice_all = [practice_faces, practice_lures];
+      const zendaya_bio = 'Zendaya likes to throw rocks at squarrels in the park';
+      const oscar_bio = 'Oscar always offers to give his friends a ride home';
 
-//zendaya is face-first, negative behavior
-      return [ 
-      {
-        type: jsPsychHtmlKeyboardResponse,
-        stimulus: `<p style="font-size:40px">${"To begin your practice trials, press 1."}</p>`,
-        choices: '1',
-        trial_duration: null,
-      },
-      {
-        type: jsPsychHtmlKeyboardResponse,
-        stimulus: `<p style="font-size:100px">${"Zendaya"}</p>`,
-        choices: 'NO_KEYS',
-        trial_duration: NAME_DELAY,
-      },
-      {
+      //zendaya is face-first, negative behavior
+      return [
+        {
+          type: jsPsychHtmlKeyboardResponse,
+          stimulus: `<p style="font-size:40px">${'To begin your practice trials, press 1.'}</p>`,
+          choices: '1',
+          trial_duration: null,
+        },
+        {
+          type: jsPsychHtmlKeyboardResponse,
+          stimulus: `<p style="font-size:100px">${'Zendaya'}</p>`,
+          choices: 'NO_KEYS',
+          trial_duration: NAME_DELAY,
+        },
+        {
+          type: jsPsychImageKeyboardResponse,
+          stimulus: zendaya,
+          stimulus_width: IMAGE_WIDTH,
+          prompt: `<p style="font-size:50px;gap:50px"><br />${'Zendaya'}</p>`,
+          choices: 'NO_KEYS',
+          trial_duration: IMAGE_DELAY,
+        },
+        {
+          type: jsPsychHtmlKeyboardResponse,
+          stimulus: `<p style="font-size:40px; line-height:1.5; margin: 0 50px 0 50px">${zendaya_bio} </p>`,
+          choices: 'NO_KEYS',
+          trial_duration: BIO_DELAY,
+        },
+
+        ...createRandomMathTrial(),
+
+        //oscar isaac is bio-first, positive behavior
+        {
+          type: jsPsychHtmlKeyboardResponse,
+          stimulus: `<p style="font-size:100px">${'Oscar'}</p>`,
+          choices: 'NO_KEYS',
+          trial_duration: NAME_DELAY,
+        },
+        {
+          type: jsPsychHtmlKeyboardResponse,
+          stimulus: `<p style="font-size:40px; line-height:1.5; margin: 0 50px 0 50px">${oscar_bio} </p>`,
+          choices: 'NO_KEYS',
+          trial_duration: BIO_DELAY,
+        },
+        {
+          type: jsPsychImageKeyboardResponse,
+          stimulus: oscar,
+          stimulus_width: IMAGE_WIDTH,
+          prompt: `<p style="font-size:50px;gap:50px"><br />${'Oscar'}</p>`,
+          choices: 'NO_KEYS',
+          trial_duration: IMAGE_DELAY,
+        },
+        ...createRandomMathTrial(),
+        {
+          type: jsPsychHtmlKeyboardResponse,
+          stimulus: `<p style="font-size:40px"><div>${'You have completed the practice trials!'}</div>
+          <div>${'Press any key to begin the learning phase.'}</div></p>`,
+          trial_duration: null,
+        },
+      ];
+    }
+    /////////////////////////////////////////////////////////////////////////////
+    // practice trials-recognition
+    function PracticeTrial_Recog(image, recogAnswers) {
+      return {
         type: jsPsychImageKeyboardResponse,
-        stimulus: zendaya,
+        stimulus: image,
         stimulus_width: IMAGE_WIDTH,
-        prompt: `<p style="font-size:50px;gap:50px"><br />${"Zendaya"}</p>`,
-        choices: 'NO_KEYS',
-        trial_duration: IMAGE_DELAY,
-      },
-      {
-        type: jsPsychHtmlKeyboardResponse,
-        stimulus: `<p style="font-size:40px; line-height:1.5; margin: 0 50px 0 50px">${zendaya_bio} </p>`,
-        choices: 'NO_KEYS',
-        trial_duration: BIO_DELAY,
-      },
-
-      ...createRandomMathTrial(),
-
-//oscar isaac is bio-first, positive behavior
-      {
-        type: jsPsychHtmlKeyboardResponse,
-        stimulus: `<p style="font-size:100px">${"Oscar"}</p>`,
-        choices: 'NO_KEYS',
-        trial_duration: NAME_DELAY,
-      },
-      {
-        type: jsPsychHtmlKeyboardResponse,
-        stimulus: `<p style="font-size:40px; line-height:1.5; margin: 0 50px 0 50px">${oscar_bio} </p>`,
-        choices: 'NO_KEYS',
-        trial_duration: BIO_DELAY,
-      },
-      {
-        type: jsPsychImageKeyboardResponse,
-        stimulus: oscar,
-        stimulus_width: IMAGE_WIDTH,
-        prompt: `<p style="font-size:50px;gap:50px"><br />${"Oscar"}</p>`,
-        choices: 'NO_KEYS',
-        trial_duration: IMAGE_DELAY,
-      },
-      ...createRandomMathTrial(),      
-      {
-        type: jsPsychHtmlKeyboardResponse,
-        stimulus: `<p style="font-size:40px"><div>${"You have completed the practice trials!"}</div>
-          <div>${"Press any key to begin the learning phase."}</div></p>`,
-        trial_duration: null,
-      },
-    ];
-
-  }
-/////////////////////////////////////////////////////////////////////////////
-// practice trials-recognition
-function PracticeTrial_Recog(image, recogAnswers) {
-  return {
-    type: jsPsychImageKeyboardResponse,
-    stimulus:image,
-    stimulus_width: IMAGE_WIDTH,
-    prompt: ` 
+        prompt: ` 
     <div style="text-align:center; display: flex; justify-content: space-evenly;gap: 50px;">
       <div style="text-align:center; justify-content: space-evenly; margin: 10px 0 0 0;">
         <p style="font-weight: bold">1</p><p style="font-size: 18pt; line-height:0.5; ">Definitely</p><p style="font-size: 18pt; line-height:0.7;color:#DC143C;">Unfamiliar</p>
@@ -480,34 +480,34 @@ function PracticeTrial_Recog(image, recogAnswers) {
         <p style="font-weight: bold">6</p><p style="font-size: 18pt; line-height:0.5; ">Definitely</p><p style="font-size: 18pt; line-height:0.7;color:#0073E6;">Familiar</p>
       </div>
     </div>`,
-    choices: ['1', '2', '3', '4', '5', '6'],
-    data: { question_type: 'practicetrial_recog', image, correct_answers: recogAnswers },
-    trial_duration: null,
-    on_finish(data) {
-      // Score the keyboard response using confidence rating, where 1-3 is new and 7-9 is old
-      data.correct = recogAnswers.includes(data.response);
-      data.participant_response = data.response;
-    },
-  };
+        choices: ['1', '2', '3', '4', '5', '6'],
+        data: { question_type: 'practicetrial_recog', image, correct_answers: recogAnswers },
+        trial_duration: null,
+        on_finish(data) {
+          // Score the keyboard response using confidence rating, where 1-3 is new and 7-9 is old
+          data.correct = recogAnswers.includes(data.response);
+          data.participant_response = data.response;
+        },
+      };
 
-  function practice_Recog() {
-    return shuffle([
-      ...practice_faces.map((image) => PracticeTrial_Recog(image, ['1', '2', '3'])),
-      ...practice_lures.map((image) => PracticeTrial_Recog(image, ['4', '5', '6'])),
-    ]);
-  }
-}
+      function practice_Recog() {
+        return shuffle([
+          ...practice_faces.map((image) => PracticeTrial_Recog(image, ['1', '2', '3'])),
+          ...practice_lures.map((image) => PracticeTrial_Recog(image, ['4', '5', '6'])),
+        ]);
+      }
+    }
 
-/////////////////////////////////////////////////////////////////////////////
-// practice trials-recall
+    /////////////////////////////////////////////////////////////////////////////
+    // practice trials-recall
 
-      /*function createPracticeTrial_Recall() {
+    /*function createPracticeTrial_Recall() {
         return[
 
         ];
         }*/
 
-////////////////////////////////////////////////////////////////////////////////////////////////////
+    ////////////////////////////////////////////////////////////////////////////////////////////////////
 
     // Helper to general a biography-first trial.
     function createBioFirstTrial(name, image, behavior, race, gender, behaviorType) {
@@ -519,9 +519,10 @@ function PracticeTrial_Recog(image, recogAnswers) {
           stimulus: `<p style="font-size:100px">${name}</p>`,
           choices: 'NO_KEYS',
           trial_duration: NAME_DELAY,
-          data: { 
+          data: {
             name,
-            condition:"Bio-first",behaviorType
+            condition: 'Bio-first',
+            behaviorType,
           },
         },
         {
@@ -529,7 +530,7 @@ function PracticeTrial_Recog(image, recogAnswers) {
           stimulus: `<p style="font-size:40px;line-height:1.5; margin: 0 50px 0 50px">${name} ${behavior} </p>`,
           choices: 'NO_KEYS',
           trial_duration: BIO_DELAY,
-          data: {name,condition:"Bio-first",behavior,behaviorType},
+          data: { name, condition: 'Bio-first', behavior, behaviorType },
         },
         {
           type: jsPsychImageKeyboardResponse,
@@ -538,8 +539,18 @@ function PracticeTrial_Recog(image, recogAnswers) {
           prompt: `<p style="font-size:50px;gap:50px"><br />${name}</p>`,
           choices: 'NO_KEYS',
           trial_duration: IMAGE_DELAY,
-          data: { image,name,condition:"Bio-first",behaviorType},
+          data: { image, name, condition: 'Bio-first', behaviorType },
         },
+        {
+          type: jsPsychHtmlKeyboardResponse,
+          stimulus: `<p>how would you rate their behavior? (Rate between 1-7)<p/>
+            <p>1-very trustworthy, 7-very untrustworthy<p/>`,
+          choices: ['0', '1', '2', '3', '4', '5', '6', '7'],
+          trial_duration: null,
+          data: {question:"trustworthy_rating"},
+        },
+
+        
         ...createRandomMathTrial(),
       ];
     }
@@ -553,9 +564,12 @@ function PracticeTrial_Recog(image, recogAnswers) {
           stimulus: `<p style="font-size:100px">${name}</p>`,
           choices: 'NO_KEYS',
           trial_duration: NAME_DELAY,
-          data: { 
+          data: {
             name,
-            condition:"Face-first",race,gender,behaviorType
+            condition: 'Face-first',
+            race,
+            gender,
+            behaviorType,
           },
         },
         {
@@ -565,14 +579,14 @@ function PracticeTrial_Recog(image, recogAnswers) {
           prompt: `<p style="font-size:50px;gap:50px"><br />${name}</p>`,
           choices: 'NO_KEYS',
           trial_duration: IMAGE_DELAY,
-          data: { image,name,condition:"Face-first",behaviorType},
+          data: { image, name, condition: 'Face-first', behaviorType },
         },
         {
           type: jsPsychHtmlKeyboardResponse,
           stimulus: `<p style="font-size:40px; line-height:1.5; margin: 0 50px 0 50px">${name} ${behavior} </p>`,
           choices: 'NO_KEYS',
           trial_duration: BIO_DELAY,
-          data: {name,condition:"Face-first",behavior,behaviorType},
+          data: { name, condition: 'Face-first', behavior, behaviorType },
         },
         ...createRandomMathTrial(),
       ];
@@ -580,7 +594,7 @@ function PracticeTrial_Recog(image, recogAnswers) {
 
     // Helper to general a control trial.
     function createControlTrial(name, image, race, gender) {
-      identifies.push({condition: 'control', name, image, race, gender});
+      identifies.push({ condition: 'control', name, image, race, gender });
 
       return [
         {
@@ -588,9 +602,11 @@ function PracticeTrial_Recog(image, recogAnswers) {
           stimulus: `<p style="font-size:100px">${name}</p>`,
           choices: 'NO_KEYS',
           trial_duration: NAME_DELAY,
-          data: { 
+          data: {
             name,
-            condition:"control",race,gender
+            condition: 'control',
+            race,
+            gender,
           },
         },
         {
@@ -606,7 +622,7 @@ function PracticeTrial_Recog(image, recogAnswers) {
           prompt: `<p style="font-size:70px;gap:50px"><br />${name}</p>`,
           choices: 'NO_KEYS',
           trial_duration: IMAGE_DELAY,
-          data: {image,name},
+          data: { image, name },
         },
         ...createRandomMathTrial(),
       ];
@@ -971,20 +987,19 @@ function PracticeTrial_Recog(image, recogAnswers) {
           choices: 'NO_KEYS',
         },
         {
-          type: jsPsychImageKeyboardResponse,
-          stimulus: image,
-          stimulus_width: 0,
-          prompt: `
-          <div style="display: flex; justify-content: space-between; align-items: left;">
+          type: jsPsychHtmlKeyboardResponse,
+          // https://flexboxfroggy.com/
+          stimulus: `
+          <div style="display: flex; justify-content: space-between; align-items: center;">
             <!-- Image -->
-            <img src="${image}" alt="Recall Image" style="width: 700px; margin: 0 0 0 0;">
+            <img src="${image}" alt="Recall Image" style="width: 700px; margin: 0;">
             <!-- Names -->
-            <div style ="line-height:2;text-align: left; font-size:35px">
+            <div style ="line-height:2; text-align: left; font-size:35px">
               ${nameGuesses.map((name, i) => `<p>${i + 1}. ${name}</p>`).join('')}
             </div>
           </div>`,
           choices: ['1', '2', '3', '4', '5'],
-          data: { question_type: 'recall', image, name, gender, race, condition, nameGuesses, nameAnswer},
+          data: { question_type: 'recall', image, name, gender, race, condition, nameGuesses, nameAnswer },
           trial_duration: null,
           on_finish(data) {
             // Score the keyboard response as correct or incorrect.
@@ -993,7 +1008,7 @@ function PracticeTrial_Recog(image, recogAnswers) {
         },
         {
           type: jsPsychHtmlKeyboardResponse,
-          stimulus: "What type of behavior is associated with this person?",
+          stimulus: 'What type of behavior is associated with this person?',
           trial_duration: null,
           choices: 'NO_KEYS',
         },
@@ -1013,7 +1028,7 @@ function PracticeTrial_Recog(image, recogAnswers) {
             </div>
           </div>`,
           choices: ['1', '2', '3'],
-          data: { question_type: 'behavior', image, behaviorType, behaviorAnswer},
+          data: { question_type: 'behavior', image, behaviorType, behaviorAnswer },
           trial_duration: null,
           on_finish(data) {
             // Determine the correct response based on `behaviorType`
@@ -1027,6 +1042,7 @@ function PracticeTrial_Recog(image, recogAnswers) {
       const results = identifies.filter(predicate);
 
       const identity = results[Math.floor(Math.random() * results.length)];
+
       return identity.name;
 
     }
@@ -1036,51 +1052,47 @@ function PracticeTrial_Recog(image, recogAnswers) {
         identifies.map(({ condition, name, image, behavior, race, gender, behaviorType }) => {
           let nameGuesses = [name];
 
-          if (condition === 'control') {//if the ID is in control condition
+          if (condition === 'control') {
+            //if the ID is in control condition
             nameGuesses.push(
-              pickRandomNameWithCriteria(//option 1. ID from control condition, same gender, same race
+              pickRandomNameWithCriteria(
+                //option 1. ID from control condition, same gender, same race
                 (identity) =>
-                  identity.race === race &&
-                  identity.gender === gender &&
-                  identity.condition === condition
-                  && identity.name !== name 
+                  identity.race === race && identity.gender === gender && identity.condition === condition && identity.name !== name
               ),
-              pickRandomNameWithCriteria(//option 2. ID from control condition, same gender, different race
-                (identity) =>
-                  identity.race !== race &&
-                  identity.gender === gender &&
-                  identity.condition === identity.condition 
+              pickRandomNameWithCriteria(
+                //option 2. ID from control condition, same gender, different race
+                (identity) => identity.race !== race && identity.gender === gender && identity.condition === condition
               ),
-              pickRandomNameWithCriteria(//option 3. ID from a different condition, same race
-                (identity) =>
-                  identity.race === race &&
-                  identity.gender === gender &&
-                  identity.condition !==identity.condition 
+              pickRandomNameWithCriteria(
+                //option 3. ID from a different condition, same race
+                (identity) => identity.race === race && identity.gender === gender && identity.condition !== condition
               )
             );
-          } else {//if ID is from condition 1 or 2 (face-first or bio-first conditions)
+          } else {
+            //if ID is from condition 1 or 2 (face-first or bio-first conditions)
 
             nameGuesses.push(
-              pickRandomNameWithCriteria(//option 1. same race, gender, same condition, different behavior
+              pickRandomNameWithCriteria(
+                //option 1. same race, gender, same condition, different behavior
                 (identity) =>
                   identity.race === race &&
                   identity.gender === gender &&
                   identity.condition === condition &&
                   identity.behaviorType !== behaviorType
               ),
-              pickRandomNameWithCriteria(//option 2. same race, gender, different condition, same behavior
+              pickRandomNameWithCriteria(
+                //option 2. same race, gender, different condition, same behavior
                 (identity) =>
                   identity.race === race &&
                   identity.gender === gender &&
-                  identity.behaviorType === identity.behaviorType &&
-                  identity.condition !== condition 
+                  identity.behaviorType === behaviorType &&
+                  identity.condition !== condition
               ),
-              pickRandomNameWithCriteria( //option 3. same race, gender, but control condition 
-                (identity) =>
-                  identity.race === race &&
-                  identity.gender === gender &&
-                  identity.condition === 'control'
-              ),
+              pickRandomNameWithCriteria(
+                //option 3. same race, gender, but control condition
+                (identity) => identity.race === race && identity.gender === gender && identity.condition === 'control'
+              )
             );
           }
 
@@ -1126,17 +1138,17 @@ function PracticeTrial_Recog(image, recogAnswers) {
       },
       //PracticeTrial_Learning(),
       ...sequenceLearningPhase(),
-       {
-         type: jsPsychHtmlKeyboardResponse,
-         stimulus: 'You will now watch a short video. Press any key to start.',
-       },
-       {
-         type: jsPsychVideoKeyboardResponse,
-         stimulus: ['video.mp4'],
-         width: document.body.clientWidth,
-         choices: 'NO_KEYS',
-         trial_ends_after_video: true,
-       },
+      {
+        type: jsPsychHtmlKeyboardResponse,
+        stimulus: 'You will now watch a short video. Press any key to start.',
+      },
+      {
+        type: jsPsychVideoKeyboardResponse,
+        stimulus: ['video.mp4'],
+        width: document.body.clientWidth,
+        choices: 'NO_KEYS',
+        trial_ends_after_video: true,
+      },
       {
         type: jsPsychHtmlKeyboardResponse,
         stimulus: `<p>Now, you will take a 2-part memory test.<p/>
