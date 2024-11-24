@@ -380,11 +380,6 @@
     //////////////////////////////////////////////////////////////////
     // practice trials- Learning
 
-    var createpreload={type:jsPsychPreload,
-            images: [...allImages, ...lureImages]};
-
-    var preload_timeline = [createpreload];
-    jsPsych.run(preload_timeline);
 
     function PracticeTrial_Learning() {
       const zendaya = './practice_trials/zendaya.jpg';
@@ -1166,6 +1161,12 @@
         },
       },
     ];
+
+    var createpreload={type:jsPsychPreload,
+        images: [...allImages, ...lureImages]};
+
+    var preload_timeline = [createpreload];
+    jsPsych.run(preload_timeline);
 
     jsPsych.run(timeline).then(() => {
       // this code runs when the timeline finishes
