@@ -986,15 +986,14 @@
           choices: 'NO_KEYS',
         },
         {
-          type: jsPsychImageKeyboardResponse,
-          stimulus: image,
-          stimulus_width: 0,
-          prompt: `
-          <div style="display: flex; justify-content: space-between; align-items: left;">
+          type: jsPsychHtmlKeyboardResponse,
+          // https://flexboxfroggy.com/
+          stimulus: `
+          <div style="display: flex; justify-content: space-between; align-items: center;">
             <!-- Image -->
-            <img src="${image}" alt="Recall Image" style="width: 700px; margin: 0 0 0 0;">
+            <img src="${image}" alt="Recall Image" style="width: 700px; margin: 0;">
             <!-- Names -->
-            <div style ="line-height:2;text-align: left; font-size:35px">
+            <div style ="line-height:2; text-align: left; font-size:35px">
               ${nameGuesses.map((name, i) => `<p>${i + 1}. ${name}</p>`).join('')}
             </div>
           </div>`,
