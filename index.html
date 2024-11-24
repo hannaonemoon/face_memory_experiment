@@ -383,7 +383,7 @@
     var createpreload={type:jsPsychPreload,
             images: [...allImages, ...lureImages]};
 
-    var preload_timeline = [trial];
+    var preload_timeline = [createpreload];
     jsPsych.run(preload_timeline);
 
     function PracticeTrial_Learning() {
