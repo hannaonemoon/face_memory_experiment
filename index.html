@@ -30,7 +30,7 @@
 
     // Update these values to change the delay for certian trials
     const NAME_DELAY = 2000;
-    const IMAGE_DELAY = 4000;
+    const IMAGE_DELAY = 3000;
     const BIO_DELAY = 5000;
     const MATH_DELAY = 3000;
     const IMAGE_WIDTH = 700;
@@ -897,33 +897,15 @@
       './lure_images/WF-211.jpg',
       './lure_images/WF-243.jpg',
       './lure_images/WM-231.jpg',
-      './lure_images/AF-214.jpg',
       './lure_images/AM-204.jpg',
       './lure_images/AM-243.jpg',
-      './lure_images/LF-221.jpg',
       './lure_images/LM-212.jpg',
       './lure_images/LM-247.jpg',
-      './lure_images/WF-212.jpg',
       './lure_images/WM-015.jpg',
       './lure_images/WM-234.jpg',
-      './lure_images/AF-218.jpg',
       './lure_images/AM-210.jpg',
-      './lure_images/AM-250.jpg',
-      './lure_images/LF-223.jpg',
       './lure_images/LM-214.jpg',
-      './lure_images/LM-248.jpg',
-      './lure_images/WF-213.jpg',
       './lure_images/WM-032.jpg',
-      './lure_images/WM-237.jpg',
-      './lure_images/AF-221.jpg',
-      './lure_images/AM-216.jpg',
-      './lure_images/AM-253.jpg',
-      './lure_images/LF-228.jpg',
-      './lure_images/LM-216.jpg',
-      './lure_images/LM-252.jpg',
-      './lure_images/WF-218.jpg',
-      './lure_images/WM-034.jpg',
-      './lure_images/WM-250.jpg',
     ];
 
     function makeRecognitionQuestion(image, recogAnswers) {
@@ -1005,9 +987,7 @@
           choices: 'NO_KEYS',
         },
         {
-          type: jsPsychImageKeyboardResponse,
-          //stimulus: image,
-          stimulus_width: 0,
+          type: jsPsychHtmlKeyboardResponse,
           stimulus: `
           <div style="display: flex; justify-content: space-between; align-items: right;">
             <!-- Image -->
