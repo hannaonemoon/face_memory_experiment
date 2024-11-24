@@ -24,10 +24,127 @@
   </head>
   <body></body>
   <script type="module">
+
     const jsPsych = initJsPsych();
 
+    const lureImages = [
+      './lure_images/AF-229.jpg',
+      './lure_images/AF-206.jpg',
+      './lure_images/AM-225.jpg',
+      './lure_images/LF-202.jpg',
+      './lure_images/LF-230.jpg',
+      './lure_images/LM-224.jpg',
+      './lure_images/WF-011.jpg',
+      './lure_images/WF-230.jpg',
+      './lure_images/WM-207.jpg',
+      './lure_images/AF-208.jpg',
+      './lure_images/AF-235.jpg',
+      './lure_images/AM-228.jpg',
+      './lure_images/LF-215.jpg',
+      './lure_images/LF-239.jpg',
+      './lure_images/LM-242.jpg',
+      './lure_images/WF-202.jpg',
+      './lure_images/WF-231.jpg',
+      './lure_images/WM-214.jpg',
+      './lure_images/AF-211.jpg',
+      './lure_images/AF-247.jpg',
+      './lure_images/AM-238.jpg',
+      './lure_images/LF-216.jpg',
+      './lure_images/LF-250.jpg',
+      './lure_images/LM-244.jpg',
+      './lure_images/WF-211.jpg',
+      './lure_images/WF-243.jpg',
+      './lure_images/WM-231.jpg',
+      './lure_images/AM-204.jpg',
+      './lure_images/AM-243.jpg',
+      './lure_images/LM-212.jpg',
+      './lure_images/LM-247.jpg',
+      './lure_images/WM-015.jpg',
+      './lure_images/WM-234.jpg',
+      './lure_images/AM-210.jpg',
+      './lure_images/LM-214.jpg',
+      './lure_images/WM-032.jpg',
+    ];
+    
+
+    const asianMaleImages = [
+    './images/AM-201.jpg',
+    './images/AM-202.jpg',
+    './images/AM-207.jpg',
+    './images/AM-211.jpg',
+    './images/AM-221.jpg',
+    './images/AM-229.jpg',];
+
+    const latinoMaleImages = [
+    './images/LM-200.jpg',
+    './images/LM-207.jpg',
+    './images/LM-208.jpg',
+    './images/LM-210.jpg',
+    './images/LM-223.jpg',
+    './images/LM-231.jpg',];
+
+    const whiteMaleImages = [
+    './images/WM-004.jpg',
+    './images/WM-009.jpg',
+    './images/WM-031.jpg',
+    './images/WM-033.jpg',
+    './images/WM-036.jpg',
+    './images/WM-040.jpg',];
+
+    const asianFemaleImages = [
+    './images/AF-205.jpg',
+    './images/AF-219.jpg',
+    './images/AF-225.jpg',
+    './images/AF-226.jpg',
+    './images/AF-227.jpg',
+    './images/AF-228.jpg',];
+
+    const latinaFemaleImages = [
+    './images/LF-201.jpg',
+    './images/LF-209.jpg',
+    './images/LF-211.jpg',
+    './images/LF-212.jpg',
+    './images/LF-213.jpg',
+    './images/LF-241.jpg',];
+
+    const whiteFemaleImages = [
+    './images/WF-007.jpg',
+    './images/WF-017.jpg',
+    './images/WF-027.jpg',
+    './images/WF-206.jpg',
+    './images/WF-207.jpg',
+    './images/WF-214.jpg',];
+
+    const allImages = [
+    ...asianMaleImages,
+    ...latinoMaleImages,
+    ...whiteMaleImages,
+    ...asianFemaleImages,
+    ...latinaFemaleImages,
+    ...whiteFemaleImages,];
+
+    const FirstInstruction = `
+    <div style="font-size:22px;line-height: 1.5; max-width: 1300px; margin: 5%; text-align: center;">
+    <p>During this experiment, you will be shown photographs of different identities, and,
+    for some, their associated identity information (e.g., description of their behavior).</p>
+    <p>Please try to remember all faces and identity information that has been presented.</p>
+    <p>Each identity is equally important to remember, and
+    you will be tested on your memory at the end of the experiment.</p>
+    <p><b>When you are ready, press any key to begin.</b></p></div>`
+    ;
+
+    
     // Function that randomly shuffles an array.
     const shuffle = jsPsych.randomization.shuffle;
+
+    const preloadImages = {
+        type: jsPsychPreload,
+        images: {...lureImages,...allImages},
+        message: 'Loading images...', // Optional loading message
+        error_message: 'An error occurred while loading the images.' // Optional error message
+      };
+
+
 
     // Update these values to change the delay for certian trials
     const NAME_DELAY = 2000;
@@ -36,16 +153,6 @@
     const MATH_DELAY = 3000;
     const IMAGE_WIDTH = 700;
 
-    const FirstInstruction = `
-      <div style="font-size:22px;line-height: 1.5; max-width: 1300px; margin: 5%; text-align: center;">
-      <p>During this experiment, you will be shown photographs of different identities, and,
-      for some, their associated identity information (e.g., description of their behavior).</p>
-      <p>Please try to remember all faces and identity information that has been presented.</p>
-      <p>Each identity is equally important to remember, and
-      you will be tested on your memory at the end of the experiment.</p>
-      <p><b>When you are ready, press any key to begin.</b></p>
-    </div>
-  `;
 
     class RandomPool {
       // these are properties on the class
@@ -221,72 +328,11 @@
       "leaves trash on tables after lunch, ignoring others' requests to clean.",
       'frequently speaks over others in group discussions, disregarding their input',
       'leaves dirty dishes in the office sink for others to clean.',
-      'consistently shows up late to group meetings, making others wait.',
+      'consistently shows up late to meetings, making others wait.',
       "criticizes others' ideas without offering constructive feedback.",
     ];
 
-    const asianMaleImages = [
-      './images/AM-201.jpg',
-      './images/AM-202.jpg',
-      './images/AM-207.jpg',
-      './images/AM-211.jpg',
-      './images/AM-221.jpg',
-      './images/AM-229.jpg',
-    ];
 
-    const latinoMaleImages = [
-      './images/LM-200.jpg',
-      './images/LM-207.jpg',
-      './images/LM-208.jpg',
-      './images/LM-210.jpg',
-      './images/LM-223.jpg',
-      './images/LM-231.jpg',
-    ];
-
-    const whiteMaleImages = [
-      './images/WM-004.jpg',
-      './images/WM-009.jpg',
-      './images/WM-031.jpg',
-      './images/WM-033.jpg',
-      './images/WM-036.jpg',
-      './images/WM-040.jpg',
-    ];
-
-    const asianFemaleImages = [
-      './images/AF-205.jpg',
-      './images/AF-219.jpg',
-      './images/AF-225.jpg',
-      './images/AF-226.jpg',
-      './images/AF-227.jpg',
-      './images/AF-228.jpg',
-    ];
-
-    const latinaFemaleImages = [
-      './images/LF-201.jpg',
-      './images/LF-209.jpg',
-      './images/LF-211.jpg',
-      './images/LF-212.jpg',
-      './images/LF-213.jpg',
-      './images/LF-241.jpg',
-    ];
-
-    const whiteFemaleImages = [
-      './images/WF-007.jpg',
-      './images/WF-017.jpg',
-      './images/WF-027.jpg',
-      './images/WF-206.jpg',
-      './images/WF-207.jpg',
-      './images/WF-214.jpg',
-    ];
-
-    const allImages = [
-      ...asianMaleImages,
-      ...latinoMaleImages,
-      ...whiteMaleImages,
-      ...asianFemaleImages,
-      ...latinaFemaleImages,
-      ...whiteFemaleImages,
-    ];
 
     function createPI20() {
       const pi20_questions = [
@@ -464,22 +510,22 @@
         prompt: ` 
     <div style="text-align:center; display: flex; justify-content: space-evenly;gap: 50px;">
       <div style="text-align:center; justify-content: space-evenly; margin: 10px 0 0 0;">
-        <p style="font-weight: bold">1</p><p style="font-size: 18pt; line-height:0.5; ">Definitely</p><p style="font-size: 18pt; line-height:0.7;color:#DC143C;">Unfamiliar</p>
+        <p style="font-weight: bold">1</p><p style="font-size: 18pt; line-height:0.5; ">Definitely</p><p style="font-size: 18pt; line-height:0.7;color:#DC143C;">New</p>
       </div>
       <div style="text-align:center; justify-content: space-evenly; margin: 10px 0 0 0;">
-        <p style="font-weight: bold">2</p><p style="font-size: 18pt; line-height:0.5; ">Probably</p><p style="font-size: 18pt; line-height:0.7;color:#DC143C;">Unfamiliar</p>
+        <p style="font-weight: bold">2</p><p style="font-size: 18pt; line-height:0.5; ">Probably</p><p style="font-size: 18pt; line-height:0.7;color:#DC143C;">New</p>
       </div>
       <div style="text-align:center; justify-content: space-evenly; margin: 10px 0 0 0;">
-        <p style="font-weight: bold">3</p><p style="font-size: 18pt; line-height:0.5; ">Maybe</p><p style="font-size: 18pt; line-height:0.7;color:#DC143C;">Unfamiliar</p>
+        <p style="font-weight: bold">3</p><p style="font-size: 18pt; line-height:0.5; ">Maybe</p><p style="font-size: 18pt; line-height:0.7;color:#DC143C;">New</p>
       </div>
       <div style="text-align:center; justify-content: space-evenly; margin: 10px 0 0 0;">
-        <p style="font-weight: bold">4</p><p style="font-size: 18pt; line-height:0.5; ">Maybe</p><p style="font-size: 18pt; line-height:0.7;color:#0073E6;">Familiar</p>
+        <p style="font-weight: bold">4</p><p style="font-size: 18pt; line-height:0.5; ">Maybe</p><p style="font-size: 18pt; line-height:0.7;color:#0073E6;">Old</p>
       </div>
       <div style="text-align:center; justify-content: space-evenly; margin: 10px 0 0 0;">
-        <p style="font-weight: bold">5</p><p style="font-size: 18pt; line-height:0.5; ">Probably</p><p style="font-size: 18pt; line-height:0.7;color:#0073E6;">Familiar</p>
+        <p style="font-weight: bold">5</p><p style="font-size: 18pt; line-height:0.5; ">Probably</p><p style="font-size: 18pt; line-height:0.7;color:#0073E6;">Old</p>
       </div>
       <div style="text-align:center; justify-content: space-evenly; margin: 10px 0 0 0;">
-        <p style="font-weight: bold">6</p><p style="font-size: 18pt; line-height:0.5; ">Definitely</p><p style="font-size: 18pt; line-height:0.7;color:#0073E6;">Familiar</p>
+        <p style="font-weight: bold">6</p><p style="font-size: 18pt; line-height:0.5; ">Definitely</p><p style="font-size: 18pt; line-height:0.7;color:#0073E6;">Old</p>
       </div>
     </div>`,
         choices: ['1', '2', '3', '4', '5', '6'],
@@ -878,22 +924,22 @@
         prompt: ` 
         <div style="text-align:center; display: flex; justify-content: space-evenly;gap: 50px;">
           <div style="text-align:center; justify-content: space-evenly; margin: 10px 0 0 0;">
-            <p style="font-weight: bold">1</p><p style="font-size: 18pt; line-height:0.5; ">Definitely</p><p style="font-size: 18pt; line-height:0.7;color:#DC143C;">Unfamiliar</p>
+            <p style="font-weight: bold">1</p><p style="font-size: 18pt; line-height:0.5; ">Definitely</p><p style="font-size: 18pt; line-height:0.7;color:#DC143C;">New</p>
+          </div>3
+          <div style="text-align:center; justify-content: space-evenly; margin: 10px 0 0 0;">
+            <p style="font-weight: bold">2</p><p style="font-size: 18pt; line-height:0.5; ">Probably</p><p style="font-size: 18pt; line-height:0.7;color:#DC143C;">New</p>
           </div>
           <div style="text-align:center; justify-content: space-evenly; margin: 10px 0 0 0;">
-            <p style="font-weight: bold">2</p><p style="font-size: 18pt; line-height:0.5; ">Probably</p><p style="font-size: 18pt; line-height:0.7;color:#DC143C;">Unfamiliar</p>
+            <p style="font-weight: bold">3</p><p style="font-size: 18pt; line-height:0.5; ">Maybe</p><p style="font-size: 18pt; line-height:0.7;color:#DC143C;">New</p>
           </div>
           <div style="text-align:center; justify-content: space-evenly; margin: 10px 0 0 0;">
-            <p style="font-weight: bold">3</p><p style="font-size: 18pt; line-height:0.5; ">Maybe</p><p style="font-size: 18pt; line-height:0.7;color:#DC143C;">Unfamiliar</p>
+            <p style="font-weight: bold">4</p><p style="font-size: 18pt; line-height:0.5; ">Maybe</p><p style="font-size: 18pt; line-height:0.7;color:#0073E6;">Old</p>
           </div>
           <div style="text-align:center; justify-content: space-evenly; margin: 10px 0 0 0;">
-            <p style="font-weight: bold">4</p><p style="font-size: 18pt; line-height:0.5; ">Maybe</p><p style="font-size: 18pt; line-height:0.7;color:#0073E6;">Familiar</p>
+            <p style="font-weight: bold">5</p><p style="font-size: 18pt; line-height:0.5; ">Probably</p><p style="font-size: 18pt; line-height:0.7;color:#0073E6;">Old</p>
           </div>
           <div style="text-align:center; justify-content: space-evenly; margin: 10px 0 0 0;">
-            <p style="font-weight: bold">5</p><p style="font-size: 18pt; line-height:0.5; ">Probably</p><p style="font-size: 18pt; line-height:0.7;color:#0073E6;">Familiar</p>
-          </div>
-          <div style="text-align:center; justify-content: space-evenly; margin: 10px 0 0 0;">
-            <p style="font-weight: bold">6</p><p style="font-size: 18pt; line-height:0.5; ">Definitely</p><p style="font-size: 18pt; line-height:0.7;color:#0073E6;">Familiar</p>
+            <p style="font-weight: bold">6</p><p style="font-size: 18pt; line-height:0.5; ">Definitely</p><p style="font-size: 18pt; line-height:0.7;color:#0073E6;">Old</p>
           </div>
         </div>`,
         choices: ['1', '2', '3', '4', '5', '6'],
@@ -945,7 +991,7 @@
         {
           type: jsPsychHtmlKeyboardResponse,
           stimulus: 'What type of behavior is associated with this person?',
-          trial_duration: null,
+          trial_duration: 1000,
           choices: 'NO_KEYS',
         },
         {
@@ -1065,22 +1111,28 @@
     }
 
     const timeline = [
-
+      {
+        type: jsPsychPreload,
+        // paths of images to load.
+        images: [...allImages, ...lureImages],
+      },
       {
         type: jsPsychHtmlKeyboardResponse,
         stimulus: FirstInstruction,
       },
+
+
       //PracticeTrial_Learning(),
       ...sequenceLearningPhase(),
       {
         type: jsPsychHtmlKeyboardResponse,
-        stimulus: 'You will now watch a short video. Press any key to start.',
+        stimulus: 'You will now watch a short video. Press "1" to start.',
       },
       {
         type: jsPsychVideoKeyboardResponse,
         stimulus: ['video.mp4'],
         width: document.body.clientWidth,
-        choices: 'NO_KEYS',
+        choices: '1',
         trial_ends_after_video: true,
       },
       {
@@ -1121,50 +1173,7 @@
         },
       },
     ];
-    const lureImages = [
-      './lure_images/AF-229.jpg',
-      './lure_images/AF-206.jpg',
-      './lure_images/AM-225.jpg',
-      './lure_images/LF-202.jpg',
-      './lure_images/LF-230.jpg',
-      './lure_images/LM-224.jpg',
-      './lure_images/WF-011.jpg',
-      './lure_images/WF-230.jpg',
-      './lure_images/WM-207.jpg',
-      './lure_images/AF-208.jpg',
-      './lure_images/AF-235.jpg',
-      './lure_images/AM-228.jpg',
-      './lure_images/LF-215.jpg',
-      './lure_images/LF-239.jpg',
-      './lure_images/LM-242.jpg',
-      './lure_images/WF-202.jpg',
-      './lure_images/WF-231.jpg',
-      './lure_images/WM-214.jpg',
-      './lure_images/AF-211.jpg',
-      './lure_images/AF-247.jpg',
-      './lure_images/AM-238.jpg',
-      './lure_images/LF-216.jpg',
-      './lure_images/LF-250.jpg',
-      './lure_images/LM-244.jpg',
-      './lure_images/WF-211.jpg',
-      './lure_images/WF-243.jpg',
-      './lure_images/WM-231.jpg',
-      './lure_images/AM-204.jpg',
-      './lure_images/AM-243.jpg',
-      './lure_images/LM-212.jpg',
-      './lure_images/LM-247.jpg',
-      './lure_images/WM-015.jpg',
-      './lure_images/WM-234.jpg',
-      './lure_images/AM-210.jpg',
-      './lure_images/LM-214.jpg',
-      './lure_images/WM-032.jpg',
-    ];
-    
-    var createpreload={type:jsPsychPreload,
-        images: [...allImages, ...lureImages]};
 
-    var preload_timeline = [createpreload];
-    jsPsych.run(preload_timeline);
 
     jsPsych.run(timeline).then(() => {
       // this code runs when the timeline finishes
